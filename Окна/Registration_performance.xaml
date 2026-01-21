@@ -1,0 +1,330 @@
+﻿<Window x:Class="Клуб_6.Окна.Registration_performance"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Клуб_6.Окна"
+        mc:Ignorable="d"
+        Title="Registration_performance" 
+        WindowState="Maximized"
+        WindowStyle="None">
+
+    <Border Background="#76AF2C">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="txtTitle" Text="НОВЫЙ ШАБЛОН МЕРОПРИЯТИЯ" 
+                       FontSize="28" FontWeight="Bold" Foreground="White"
+                       HorizontalAlignment="Center" Margin="0,20,0,20"/>
+
+            <TabControl Grid.Row="1" Margin="20,0,20,0" Background="White" BorderThickness="0">
+
+                <TabItem Header="ОСНОВНАЯ ИНФОРМАЦИЯ">
+                    <Border Background="White" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="Название шаблона:*" 
+                                       FontSize="18" FontWeight="Bold" 
+                                       Foreground="#08541C"
+                                       Margin="0,0,0,10"/>
+
+                            <TextBox x:Name="txtEventName" 
+                                     FontSize="16" 
+                                     Height="45"
+                                     Padding="10"
+                                     BorderThickness="1"
+                                     BorderBrush="#CCCCCC"
+                                     VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                </TabItem>
+
+                <TabItem Header="ДИСЦИПЛИНЫ">
+                    <Grid Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Background="#F0F0F0" Padding="15" Margin="10">
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnAddDiscipline" 
+                                        Content="+ ДОБАВИТЬ ДИСЦИПЛИНУ" 
+                                        Click="btnAddDiscipline_Click"
+                                        Style="{StaticResource ButtonStyle}"
+                                        FontWeight="Bold"
+                                        Padding="20,10"
+                                        FontSize="14"/>
+                            </StackPanel>
+                        </Border>
+
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="10">
+                            <ItemsControl x:Name="listDisciplines" ItemsSource="{Binding DisciplinesList}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="5" Margin="0,0,0,10" Padding="15" Background="White">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <TextBlock Text="Название дисциплины:" 
+                                                                   FontWeight="Bold" FontSize="14"
+                                                                   Foreground="#08541C"
+                                                                   VerticalAlignment="Center"
+                                                                   Margin="0,0,10,0"/>
+
+                                                        <TextBox Text="{Binding DisciplineName, UpdateSourceTrigger=PropertyChanged}" 
+                                                                 Width="400" Height="35" FontSize="14" Padding="5"
+                                                                 BorderThickness="1" BorderBrush="#CCCCCC"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <Button Grid.Column="1" Content="УДАЛИТЬ" Click="btnDeleteDiscipline_Click"
+                                                        Background="#6E0A0F" Foreground="White" FontWeight="Bold"
+                                                        Padding="15,8" FontSize="12" BorderThickness="0"
+                                                        VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="КРИТЕРИИ ОЦЕНКИ">
+                    <Grid Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Background="#F0F0F0" Padding="15" Margin="10">
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnAddCriterion" 
+                        Content="+ ДОБАВИТЬ КРИТЕРИЙ" 
+                        Click="btnAddCriterion_Click"
+                        Style="{StaticResource ButtonStyle}"
+                        FontWeight="Bold"
+                        Padding="20,10"
+                        FontSize="14"/>
+                            </StackPanel>
+                        </Border>
+
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="10">
+                            <ItemsControl x:Name="listCriteria" ItemsSource="{Binding CriteriaList}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="5" Margin="0,0,0,15" Padding="15" Background="White">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+
+                                                <!-- Заголовок критерия -->
+                                                <Grid Grid.Row="0" Margin="0,0,0,15">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <!-- Чекбокс важности -->
+                                                    <CheckBox Grid.Column="0" 
+                                              IsChecked="{Binding IsImportant}"
+                                              Content="Важный"
+                                              Margin="0,0,10,0"
+                                              VerticalAlignment="Center"
+                                              FontWeight="Bold"
+                                              Foreground="#08541C"/>
+
+                                                    <!-- Название критерия -->
+                                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                        <TextBlock Text="Название:" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="14"
+                                                   Foreground="#08541C"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,10,0"/>
+
+                                                        <TextBox Text="{Binding CriterionName}" 
+                                                 Width="400" 
+                                                 Height="35" 
+                                                 FontSize="14" 
+                                                 Padding="5"
+                                                 BorderThickness="1" 
+                                                 BorderBrush="#CCCCCC"/>
+                                                    </StackPanel>
+
+                                                    <!-- Кнопка удаления критерия -->
+                                                    <Button Grid.Column="2" 
+                                            Content="УДАЛИТЬ" 
+                                            Click="btnDeleteCriterion_Click"
+                                            Background="#6E0A0F" 
+                                            Foreground="White" 
+                                            FontWeight="Bold"
+                                            Padding="15,8" 
+                                            FontSize="12" 
+                                            BorderThickness="0"/>
+                                                </Grid>
+
+                                                <!-- Блок добавления обычного варианта -->
+                                                <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="0,1,0,0" Padding="15,0,15,15">
+                                                    <StackPanel>
+                                                        <TextBlock Text="ДОБАВИТЬ ОБЫЧНЫЙ ВАРИАНТ (выбрать один):" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="13" 
+                                                   Foreground="#08541C" 
+                                                   Margin="0,0,0,10"/>
+
+                                                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                                            <TextBox x:Name="txtNewRadioOption" 
+                                                     Width="400" 
+                                                     Height="30" 
+                                                     FontSize="14" 
+                                                     Padding="5"
+                                                     Margin="0,0,10,0"/>
+
+                                                            <Button Content="+ ДОБАВИТЬ ВАРИАНТ" 
+                                                    Tag="{Binding}"
+                                                    Click="btnAddRadioOption_Click" 
+                                                    Background="#08541C" 
+                                                    Foreground="White" 
+                                                    Width="150" 
+                                                    Height="30"
+                                                    FontWeight="Bold"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <!-- Список обычных вариантов -->
+                                                <Border Grid.Row="2" BorderBrush="#E0E0E0" BorderThickness="0,1,0,0" Padding="15,0,15,15">
+                                                    <StackPanel>
+                                                        <TextBlock Text="ОБЫЧНЫЕ ВАРИАНТЫ:" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="13" 
+                                                   Foreground="#08541C" 
+                                                   Margin="0,0,0,10"/>
+
+                                                        <!-- Список ОБЫЧНЫХ вариантов (только radio) -->
+                                                        <ItemsControl ItemsSource="{Binding RadioOptions}" 
+              Margin="0,0,0,15">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <!-- Только обычные варианты (OptionType == "radio") -->
+                                                                    <Grid Margin="0,0,0,5">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="Auto"/>
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <TextBox Grid.Column="0" 
+                         Text="{Binding OptionValue}" 
+                         Height="30" />
+
+                                                                        <Button Grid.Column="1" 
+                        Content="✕" 
+                        Tag="{Binding}"
+                        Click="btnDeleteOption_Click"
+                        Width="35" Height="30" />
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <!-- Блок добавления текстового поля -->
+                                                <Border Grid.Row="3" BorderBrush="#E0E0E0" BorderThickness="0,1,0,0" Padding="15,15,15,0">
+                                                    <StackPanel>
+                                                        <TextBlock Text="ДОБАВИТЬ ТЕКСТОВОЕ ПОЛЕ (ввести ответ):" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="13" 
+                                                   Foreground="#08541C" 
+                                                   Margin="0,0,0,10"/>
+
+                                                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                                            <TextBox x:Name="txtNewTextOption" 
+                                                     Width="400" 
+                                                     Height="30" 
+                                                     FontSize="14" 
+                                                     Padding="5"
+                                                     Margin="0,0,10,0"/>
+
+                                                            <Button Content="+ ДОБАВИТЬ ТЕКСТОВОЕ ПОЛЕ" 
+                                                    Tag="{Binding}"
+                                                    Click="btnAddTextOption_Click" 
+                                                    Background="#08541C" 
+                                                    Foreground="White" 
+                                                    Width="180" 
+                                                    Height="30"
+                                                    FontWeight="Bold"/>
+                                                        </StackPanel>
+
+                                                        <!-- Список текстовых полей -->
+                                                        <TextBlock Text="ТЕКСТОВЫЕ ПОЛЯ:" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="13" 
+                                                   Foreground="#08541C" 
+                                                   Margin="0,20,0,10"/>
+
+                                                        <!-- Список ТЕКСТОВЫХ полей (только text) -->
+                                                        <ItemsControl ItemsSource="{Binding TextOptions}"
+              Margin="0,0,0,15">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <!-- Только текстовые поля (OptionType == "text") -->
+                                                                    <Grid Margin="0,0,0,5">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="Auto"/>
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <TextBox Grid.Column="0" 
+                         Text="{Binding TextInfo}" 
+                         Height="30" />
+
+                                                                        <Button Grid.Column="1" 
+                        Content="✕" 
+                        Tag="{Binding}"
+                        Click="btnDeleteOption_Click"
+                        Width="35" Height="30" />
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </StackPanel>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+
+            <Border Grid.Row="2" Background="White" Padding="10" Margin="20,0,20,20" CornerRadius="10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="СОХРАНИТЬ ШАБЛОН" Width="250" Height="50" FontSize="18" FontWeight="Bold"
+                            Click="btnSave_Click" Style="{StaticResource ButtonStyle}" Margin="10"/>
+
+                    <Button Content="ОТМЕНА" Width="180" Height="50" FontSize="18" FontWeight="Bold"
+                            Click="btnCancel_Click" Style="{StaticResource ButtonStyleTWO}" Margin="10"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,478 @@
+﻿<Window x:Class="Клуб_6.Окна.Result_card"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Карточка мероприятия"
+        WindowState="Maximized"
+        WindowStyle="None">
+
+    <Border Background="#76AF2C">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок -->
+            <StackPanel Grid.Row="0" Margin="0,20,0,10">
+                <TextBlock x:Name="txtTitle" 
+                           Text="КАРТОЧКА МЕРОПРИЯТИЯ" 
+                           FontSize="28" 
+                           FontWeight="Bold" 
+                           Foreground="White"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Основной контент -->
+            <ScrollViewer Grid.Row="1" Margin="20">
+                <StackPanel>
+                    <!-- Информация о мероприятии -->
+                    <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0" Background="#08541C" CornerRadius="10,10,0,0" Padding="15">
+                                <TextBlock Text="ИНФОРМАЦИЯ О МЕРОПРИЯТИИ" 
+                                           HorizontalAlignment="Center" 
+                                           FontSize="20" 
+                                           FontWeight="Bold"
+                                           Foreground="White"/>
+                            </Border>
+
+                            <Grid Grid.Row="1" Margin="0,20,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Левая колонка -->
+                                <TextBlock Grid.Row="0" Grid.Column="0" 
+                                           Text="Название:" 
+                                           FontWeight="Bold" 
+                                           FontSize="16"
+                                           Margin="0,0,10,10"/>
+                                <TextBlock x:Name="txtName" 
+                                           Grid.Row="0" Grid.Column="1" 
+                                           FontSize="16"
+                                           Margin="0,0,0,10"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" 
+                                           Text="Дата:" 
+                                           FontWeight="Bold" 
+                                           FontSize="16"
+                                           Margin="0,0,10,10"/>
+                                <TextBlock x:Name="txtEventDate" 
+                                           Grid.Row="1" Grid.Column="1" 
+                                           FontSize="16"
+                                           Margin="0,0,0,10"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" 
+                                           Text="Место:" 
+                                           FontWeight="Bold" 
+                                           FontSize="16"
+                                           Margin="0,0,10,0"/>
+                                <TextBlock x:Name="txtEventVenue" 
+                                           Grid.Row="2" Grid.Column="1" 
+                                           FontSize="16"/>
+
+                                <!-- Правая колонка -->
+                                <TextBlock Grid.Row="0" Grid.Column="2" 
+                                           Text="Состав:" 
+                                           FontWeight="Bold" 
+                                           FontSize="16"
+                                           Margin="20,0,10,10"/>
+                                <TextBlock x:Name="txtComposition" 
+                                           Grid.Row="0" Grid.Column="3" 
+                                           FontSize="16"
+                                           Margin="0,0,0,10"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="2" 
+                                           Text="Организация:" 
+                                           FontWeight="Bold" 
+                                           FontSize="16"
+                                           Margin="20,0,10,10"/>
+                                <TextBlock x:Name="txtOrganization" 
+                                           Grid.Row="1" Grid.Column="3" 
+                                           FontSize="16"
+                                           Margin="0,0,0,10"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="2" 
+                                           Text="Статус:" 
+                                           FontWeight="Bold" 
+                                           FontSize="16"
+                                           Margin="20,0,10,0"/>
+                                <TextBlock x:Name="txtStatus" 
+                                           Grid.Row="2" Grid.Column="3" 
+                                           FontSize="16"/>
+                            </Grid>
+
+                            <!-- Судьи и ведущие -->
+                            <Grid Grid.Row="2" Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                    <TextBlock Text="Судьи:" 
+                                               FontWeight="Bold" 
+                                               FontSize="16"
+                                               Margin="0,0,0,5"/>
+                                    <TextBlock x:Name="txtJudges" 
+                                               FontSize="16"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                    <TextBlock Text="Ведущие:" 
+                                               FontWeight="Bold" 
+                                               FontSize="16"
+                                               Margin="0,0,0,5"/>
+                                    <TextBlock x:Name="txtHost" 
+                                               FontSize="16"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <!-- Информация о собаках (старая логика) -->
+                    <Border Background="White" CornerRadius="10" Padding="20">
+                        <StackPanel>
+                            <Border Background="#08541C" CornerRadius="10,10,0,0" Padding="15">
+                                <TextBlock Text="ИНФОРМАЦИЯ О СОБАКАХ" 
+                       HorizontalAlignment="Center" 
+                       FontSize="20" 
+                       FontWeight="Bold"
+                       Foreground="White"/>
+                            </Border>
+
+                            <ItemsControl x:Name="icDogResults" 
+                      Margin="0,20,0,0">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="#CCCCCC" 
+                            BorderThickness="1" 
+                            CornerRadius="5" 
+                            Padding="15" 
+                            Margin="0,0,0,15"
+                            Background="#F9F9F9">
+                                            <StackPanel>
+                                                <!-- Информация о собаке -->
+                                                <Grid Margin="0,0,0,10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Grid.Column="0" 
+                                           Text="Собака:" 
+                                           FontWeight="Bold" 
+                                           FontSize="16"
+                                           Margin="0,0,10,0"/>
+                                                    <TextBlock Grid.Column="1" 
+                                           Text="{Binding DogName}" 
+                                           FontSize="16"/>
+
+                                                    <TextBlock Grid.Column="2" 
+                                           Text="Чип:" 
+                                           FontWeight="Bold" 
+                                           FontSize="16"
+                                           Margin="20,0,10,0"/>
+                                                    <TextBlock Grid.Column="3" 
+                                           Text="{Binding ChipNumber}" 
+                                           FontSize="16"/>
+                                                </Grid>
+
+                                                <!-- Порода и владелец -->
+                                                <Grid Margin="0,0,0,15">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Grid.Column="0" 
+                                           Text="Порода:" 
+                                           FontWeight="Bold" 
+                                           FontSize="16"
+                                           Margin="0,0,10,0"/>
+                                                    <TextBlock Grid.Column="1" 
+                                           Text="{Binding Breed}" 
+                                           FontSize="16"/>
+
+                                                    <TextBlock Grid.Column="2" 
+                                           Text="Владелец:" 
+                                           FontWeight="Bold" 
+                                           FontSize="16"
+                                           Margin="20,0,10,0"/>
+                                                    <TextBlock Grid.Column="3" 
+                                           Text="{Binding Owner}" 
+                                           FontSize="16"/>
+                                                </Grid>
+
+                                                <!-- Итоговый результат испытания -->
+                                                <Border BorderBrush="#08541C" 
+                                    BorderThickness="0,1,0,0" 
+                                    Padding="0,10,0,0">
+                                                    <StackPanel>
+                                                        <TextBlock Text="ИТОГОВЫЙ РЕЗУЛЬТАТ ИСПЫТАНИЯ:" 
+                                               FontWeight="Bold" 
+                                               FontSize="16"
+                                               Margin="0,0,0,5"/>
+
+                                                        <!-- Испытание прошла -->
+                                                        <StackPanel Visibility="{Binding ShowTrialPassed}">
+                                                            <TextBlock Text="Испытание прошла на" 
+                                                   FontSize="15"
+                                                   Margin="0,0,0,2"/>
+                                                            <TextBlock Text="{Binding TrialPassedScore}" 
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   Foreground="Green"
+                                                   Margin="20,0,0,5"/>
+                                                        </StackPanel>
+
+                                                        <!-- Испытание не прошла -->
+                                                        <StackPanel Visibility="{Binding ShowTrialFailed}">
+                                                            <TextBlock Text="Испытание не прошла" 
+                                                   FontSize="15"
+                                                   Margin="0,0,0,2"/>
+                                                            <TextBlock Text="{Binding TrialFailedReason}" 
+                                                   FontSize="14"
+                                                   FontStyle="Italic"
+                                                   Foreground="Red"
+                                                   TextWrapping="Wrap"
+                                                   Margin="20,0,0,10"/>
+                                                        </StackPanel>
+
+                                                        <!-- Нет результатов -->
+                                                        <StackPanel Visibility="{Binding ShowNoResults}">
+                                                            <TextBlock Text="Результаты отсутствуют" 
+                                                   FontSize="14"
+                                                   FontStyle="Italic"
+                                                   Foreground="Gray"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Border>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!-- Если нет собак -->
+                            <TextBlock x:Name="txtNoDogs" 
+                   Text="В мероприятии нет собак" 
+                   FontSize="16" 
+                   FontStyle="Italic"
+                   Foreground="Gray"
+                   HorizontalAlignment="Center"
+                   Margin="0,20,0,0"
+                   Visibility="Collapsed"/>
+                        </StackPanel>
+                    </Border>
+                    
+
+                    <!-- ТАБЛИЦА ДИСЦИПЛИН -->
+                    <Border Background="White" CornerRadius="10" Padding="20" Margin="0,20,0,20">
+                        <StackPanel>
+                            <Border Background="#08541C" CornerRadius="10,10,0,0" Padding="15">
+                                <TextBlock Text="ТАБЛИЦА РЕЗУЛЬТАТОВ ПО ДИСЦИПЛИНАМ" 
+                                           HorizontalAlignment="Center" 
+                                           FontSize="20" 
+                                           FontWeight="Bold"
+                                           Foreground="White"/>
+                            </Border>
+
+                            <Border BorderBrush="#CCCCCC" BorderThickness="1" Margin="0,20,0,0" CornerRadius="5">
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl x:Name="icDisciplinesTable" Margin="0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="#CCCCCC" BorderThickness="0,0,0,1">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="150"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="80"/>
+                                                            <ColumnDefinition Width="100"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <!-- Название дисциплины/собаки -->
+                                                        <Border Grid.Column="0" 
+                                                                BorderBrush="#CCCCCC" 
+                                                                BorderThickness="0,0,1,0"
+                                                                Background="{Binding BackgroundColor}"
+                                                                Padding="5">
+                                                            <TextBlock Text="{Binding DogName}" 
+                                                                       FontWeight="{Binding FontWeight}"
+                                                                       VerticalAlignment="Center"/>
+                                                        </Border>
+
+                                                        <!-- Баллы по собакам -->
+                                                        <ItemsControl Grid.Column="1" 
+                                                                      ItemsSource="{Binding Scores}"
+                                                                      Background="{Binding BackgroundColor}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <UniformGrid Columns="{Binding Scores.Count}" 
+                                                                                 Rows="1"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Border BorderBrush="#CCCCCC" 
+                                                                            BorderThickness="0,0,1,0"
+                                                                            Padding="5"
+                                                                            Height="30">
+                                                                        <TextBlock Text="{Binding}" 
+                                                                                   HorizontalAlignment="Center"
+                                                                                   VerticalAlignment="Center"
+                                                                                   FontWeight="{Binding Path=DataContext.FontWeight, 
+                                                                                                RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+
+                                                        <!-- Итог -->
+                                                        <Border Grid.Column="2" 
+                                                                BorderBrush="#CCCCCC" 
+                                                                BorderThickness="0,0,1,0"
+                                                                Background="{Binding BackgroundColor}"
+                                                                Padding="5">
+                                                            <TextBlock Text="{Binding Total}" 
+                                                                       FontWeight="{Binding FontWeight}"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"/>
+                                                        </Border>
+
+                                                        <!-- Статус -->
+                                                        <Border Grid.Column="3" 
+                                                                Background="{Binding BackgroundColor}"
+                                                                Padding="5">
+                                                            <TextBlock Text="{Binding Status}" 
+                                                                       FontWeight="{Binding FontWeight}"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ТАБЛИЦА КРИТЕРИЕВ -->
+                    <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20">
+                        <StackPanel>
+                            <Border Background="#08541C" CornerRadius="10,10,0,0" Padding="15">
+                                <TextBlock Text="ТАБЛИЦА РЕЗУЛЬТАТОВ ПО КРИТЕРИЯМ" 
+                                           HorizontalAlignment="Center" 
+                                           FontSize="20" 
+                                           FontWeight="Bold"
+                                           Foreground="White"/>
+                            </Border>
+
+                            <Border BorderBrush="#CCCCCC" BorderThickness="1" Margin="0,20,0,0" CornerRadius="5">
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl x:Name="icCriteriaTable" Margin="0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="#CCCCCC" BorderThickness="0,0,0,1">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="200"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <!-- Название критерия -->
+                                                        <Border Grid.Column="0" 
+                                                                BorderBrush="#CCCCCC" 
+                                                                BorderThickness="0,0,1,0"
+                                                                Background="{Binding BackgroundColor}"
+                                                                Padding="5">
+                                                            <TextBlock Text="{Binding CriterionName}" 
+                                                                       FontWeight="{Binding FontWeight}"
+                                                                       VerticalAlignment="Center"/>
+                                                        </Border>
+
+                                                        <!-- Ответы собак -->
+                                                        <ItemsControl Grid.Column="1" 
+                                                                      ItemsSource="{Binding Answers}"
+                                                                      Background="{Binding BackgroundColor}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <UniformGrid Columns="{Binding Answers.Count}" 
+                                                                                 Rows="1"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Border BorderBrush="#CCCCCC" 
+                                                                            BorderThickness="0,0,1,0"
+                                                                            Padding="5"
+                                                                            Height="30">
+                                                                        <TextBlock Text="{Binding}" 
+                                                                                   HorizontalAlignment="Center"
+                                                                                   VerticalAlignment="Center"
+                                                                                   TextWrapping="Wrap"
+                                                                                   FontWeight="{Binding Path=DataContext.FontWeight, 
+                                                                                                RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Кнопки -->
+            <StackPanel Grid.Row="2" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Center" 
+                        Margin="0,20,0,30">
+                <Button Content="ЗАКРЫТЬ" 
+                        Width="200" 
+                        Height="45" 
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Click="btnClose_Click"
+                        Style="{StaticResource ButtonStyle}"
+                        Margin="10"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

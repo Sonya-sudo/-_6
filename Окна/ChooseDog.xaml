@@ -1,0 +1,362 @@
+﻿<Window x:Class="Клуб_6.Окна.ChooseDog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Клуб_6.Окна"
+        mc:Ignorable="d"
+        Title="ChooseDog"    
+        WindowState="Maximized"
+        WindowStyle="None">
+
+    <Border Background="#76AF2C">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок -->
+            <StackPanel Grid.Row="0" Margin="0,20,0,10">
+                <TextBlock x:Name="txtEventTitle" 
+               Text="СОЗДАНИЕ НОВОГО МЕРОПРИЯТИЯ" 
+               FontSize="24" 
+               FontWeight="Bold" 
+               Foreground="White"
+               HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Информация о типе мероприятия -->
+            <Border Grid.Row="1" 
+            Margin="50,0,50,20" 
+            Background="#08541C" 
+            CornerRadius="10" 
+            Padding="15">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Тип мероприятия:" 
+                   FontSize="18" 
+                   Foreground="White"
+                   FontWeight="Bold"/>
+                    <TextBlock x:Name="txtEventType" 
+                   Text="" 
+                   FontSize="18" 
+                   Foreground="White"
+                   FontWeight="Bold"
+                   Margin="10,0,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Основной контент -->
+            <Grid Grid.Row="2" Margin="20,0,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Левая панель - детали мероприятия -->
+                <Border Grid.Column="0" Background="White" CornerRadius="10" Margin="0,0,10,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Background="#08541C" CornerRadius="10,10,0,0" Padding="10">
+                            <TextBlock Text="ДЕТАЛИ МЕРОПРИЯТИЯ" 
+                           HorizontalAlignment="Center" 
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           Foreground="White"/>
+                        </Border>
+
+                        <!-- Поля для заполнения -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="20">
+                            <StackPanel>
+                                <!-- Дата испытания -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBlock Text="Дата испытания:*" 
+                                   FontWeight="Bold" 
+                                   FontSize="16"
+                                   Foreground="#08541C"
+                                   Margin="0,0,0,5"/>
+                                    <DatePicker x:Name="dpDate" 
+                                    FontSize="16" 
+                                    Height="45"
+                                    VerticalContentAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- Место проведения -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBlock Text="Место проведения:*" 
+                                   FontWeight="Bold" 
+                                   FontSize="16"
+                                   Foreground="#08541C"
+                                   Margin="0,0,0,5"/>
+                                    <TextBox x:Name="txtLocation" 
+                                 FontSize="16" 
+                                 Padding="10" 
+                                 Height="45"
+                                 BorderThickness="1"
+                                 BorderBrush="#CCCCCC"
+                                 VerticalContentAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- Ведующий -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBlock Text="Ведущий:*" 
+                                        FontWeight="Bold" 
+                                        FontSize="16"
+                                        Foreground="#08541C"
+                                        Margin="0,0,0,5"/>
+                                    <TextBox x:Name="txtHost" 
+                                        FontSize="16" 
+                                        Padding="10" 
+                                        Height="45"
+                                        BorderThickness="1"
+                                        BorderBrush="#CCCCCC"
+                                        VerticalContentAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- Организация -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBlock Text="Организация:" 
+                                   FontWeight="Bold" 
+                                   FontSize="16"
+                                   Foreground="#08541C"
+                                   Margin="0,0,0,5"/>
+                                    <TextBox x:Name="txtOrganization" 
+                                 FontSize="16" 
+                                 Padding="10" 
+                                 Height="45"
+                                 BorderThickness="1"
+                                 BorderBrush="#CCCCCC"
+                                 VerticalContentAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- Судья 1 -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBlock Text="Судья (1):" 
+                                   FontWeight="Bold" 
+                                   FontSize="16"
+                                   Foreground="#08541C"
+                                   Margin="0,0,0,5"/>
+                                    <TextBox x:Name="txtJudge1" 
+                                 FontSize="16" 
+                                 Padding="10" 
+                                 Height="45"
+                                 BorderThickness="1"
+                                 BorderBrush="#CCCCCC"
+                                 VerticalContentAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- Судья 2 -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBlock Text="Судья (2):" 
+                                   FontWeight="Bold" 
+                                   FontSize="16"
+                                   Foreground="#08541C"
+                                   Margin="0,0,0,5"/>
+                                    <TextBox x:Name="txtJudge2" 
+                                 FontSize="16" 
+                                 Padding="10" 
+                                 Height="45"
+                                 BorderThickness="1"
+                                 BorderBrush="#CCCCCC"
+                                 VerticalContentAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- Председатель комиссии -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBlock Text="Председатель комиссии:" 
+                                   FontWeight="Bold" 
+                                   FontSize="16"
+                                   Foreground="#08541C"
+                                   Margin="0,0,0,5"/>
+                                    <TextBox x:Name="txtChairman" 
+                                 FontSize="16" 
+                                 Padding="10" 
+                                 Height="45"
+                                 BorderThickness="1"
+                                 BorderBrush="#CCCCCC"
+                                 VerticalContentAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- Организатор испытаний -->
+                                <StackPanel Margin="0,0,0,20">
+                                    <TextBlock Text="Организатор испытаний:" 
+                                   FontWeight="Bold" 
+                                   FontSize="16"
+                                   Foreground="#08541C"
+                                   Margin="0,0,0,5"/>
+                                    <TextBox x:Name="txtOrganizer" 
+                                 FontSize="16" 
+                                 Padding="10" 
+                                 Height="45"
+                                 BorderThickness="1"
+                                 BorderBrush="#CCCCCC"
+                                 VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+
+                <!-- Правая панель - собаки -->
+                <Border Grid.Column="1" Background="White" CornerRadius="10" Margin="10,0,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Верхняя панель - доступные собаки -->
+                        <Border Grid.Row="0" Background="White" CornerRadius="10" Margin="10,10,10,5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0" Background="#2E8B57" CornerRadius="10,10,0,0" Padding="10">
+                                    <TextBlock Text="ДОСТУПНЫЕ СОБАКИ" 
+                                   HorizontalAlignment="Center" 
+                                   FontSize="18" 
+                                   FontWeight="Bold"
+                                   Foreground="White"/>
+                                </Border>
+
+                                <!-- Поиск -->
+                                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                                    <TextBox x:Name="txtSearch" 
+                                 Width="300" 
+                                 Height="35" 
+                                 FontSize="14"
+                                 Padding="5"
+                                 TextChanged="txtSearch_TextChanged"
+                                 ToolTip="Поиск по кличке, породе или номеру чипа"/>
+                                </StackPanel>
+
+                                <!-- Список доступных собак -->
+                                <ListView x:Name="listAvailableDogs" 
+                              Grid.Row="2" 
+                              Margin="10"
+                              SelectionMode="Extended"
+                              FontSize="14">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Кличка" Width="165" DisplayMemberBinding="{Binding DogName}"/>
+                                            <GridViewColumn Header="Порода" Width="165" DisplayMemberBinding="{Binding Breed}"/>
+                                            <GridViewColumn Header="Чип" Width="165" DisplayMemberBinding="{Binding ChipNumber}"/>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
+                        </Border>
+
+                        <!-- Кнопки перемещения (середина) -->
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,5,10,5">
+                            <Button Content="➡" 
+                                Width="120" 
+                                Height="40" 
+                                FontSize="25"
+                                FontWeight="Bold"
+                                Click="btnMoveToSelected_Click"
+                                ToolTip="Добавить выбранных в список"
+                                Style="{StaticResource ButtonStyle}"
+                                Margin="5,0"/>
+
+                            <Button x:Name="btnMoveToAvailable" 
+                                Content="⬅" 
+                                Width="120" 
+                                Height="40" 
+                                FontSize="25"
+                                FontWeight="Bold"
+                                Click="btnMoveToAvailable_Click"
+                                ToolTip="Вернуть выбранных обратно"
+                                Style="{StaticResource ButtonStyle}"
+                                Margin="5,0"/>
+
+                            <Button x:Name="btnClearSelected" 
+                                Content="✕" 
+                                Width="120" 
+                                Height="40" 
+                                FontSize="25"
+                                FontWeight="Bold"
+                                Click="btnClearSelected_Click"
+                                ToolTip="Очистить все выбранные"
+                                Style="{StaticResource ButtonStyleTWO}"
+                                Margin="5,0"/>
+                        </StackPanel>
+
+                        <!-- Нижняя панель - выбранные собаки -->
+                        <Border Grid.Row="2" Background="White" CornerRadius="10" Margin="10,5,10,10">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0" Background="#8B0000" CornerRadius="10,10,0,0" Padding="10">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock Text="ВЫБРАННЫЕ СОБАКИ" 
+                                       FontSize="18" 
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       Margin="0,0,10,0"/>
+                                        <TextBlock x:Name="txtSelectedCount" 
+                                       Text="(0)" 
+                                       FontSize="18" 
+                                       FontWeight="Bold"
+                                       Foreground="White"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Список выбранных собак -->
+                                <ListView x:Name="listSelectedDogs" 
+                              Grid.Row="1" 
+                              Margin="10"
+                              SelectionMode="Extended"
+                              FontSize="14">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Кличка" Width="120" DisplayMemberBinding="{Binding DogName}"/>
+                                            <GridViewColumn Header="Порода" Width="120" DisplayMemberBinding="{Binding Breed}"/>
+                                            <GridViewColumn Header="Чип" Width="100" DisplayMemberBinding="{Binding ChipNumber}"/>
+                                            <GridViewColumn Header="Владелец" Width="150" DisplayMemberBinding="{Binding OwnerName}"/>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Кнопки действий -->
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,30">
+                <Button Content="ОТМЕНА" 
+            Width="150" 
+            Height="45" 
+            FontSize="20"
+            FontWeight="Bold"
+            Click="btnCancel_Click"
+            Style="{StaticResource ButtonStyleTWO}"
+            Margin="10"/>
+
+                <Button Content="СОЗДАТЬ МЕРОПРИЯТИЕ" 
+            Width="300" 
+            Height="45" 
+            FontSize="20"
+            FontWeight="Bold"
+            Click="btnSave_Click"
+            Style="{StaticResource ButtonStyle}"
+            Margin="10"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

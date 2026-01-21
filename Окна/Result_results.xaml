@@ -1,0 +1,448 @@
+﻿<Window x:Class="Клуб_6.Окна.Result_results"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Клуб_6.Окна"
+        mc:Ignorable="d"
+        Title="Result_results"
+        WindowState="Maximized" 
+        WindowStyle="None">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+
+    <Border Background="#76AF2C">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок -->
+            <StackPanel Grid.Row="0" Margin="0,20,0,10">
+                <TextBlock Text="РЕЗУЛЬТАТЫ МЕРОПРИЯТИЯ" 
+                       FontSize="24" 
+                       FontWeight="Bold" 
+                       Foreground="White"
+                       HorizontalAlignment="Center"/>
+                <TextBlock x:Name="txtEventName" 
+                       Text="{Binding EventNameText}" 
+                       FontSize="18" 
+                       Foreground="White"
+                       HorizontalAlignment="Center"/>
+                <TextBlock x:Name="txtEventDate" 
+                       Text="{Binding EventDateText}" 
+                       FontSize="16" 
+                       Foreground="White"
+                       HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Основной контент -->
+            <Border Grid.Row="1" Margin="20" Background="White" CornerRadius="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="250"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Левая часть - редактирование -->
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Информация о собаке -->
+                        <Border Grid.Row="0" 
+                            Background="#08541C" 
+                            CornerRadius="10,10,0,0" 
+                            Padding="15">
+                            <TextBlock x:Name="txtDogInfo" 
+                                   Text="{Binding DogInfoText}" 
+                                   FontSize="18" 
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"/>
+                        </Border>
+
+                        <!-- Редактирование результатов -->
+                        <ScrollViewer Grid.Row="1" 
+                                  VerticalScrollBarVisibility="Auto" 
+                                  Padding="20">
+                            <StackPanel>
+                                <!-- Критерии оценки -->
+                                <Border BorderBrush="#08541C" 
+                                    BorderThickness="0,0,0,2" 
+                                    Margin="0,0,0,15">
+                                    <TextBlock Text="КРИТЕРИИ ОЦЕНКИ" 
+                                           FontSize="18" 
+                                           FontWeight="Bold"
+                                           Foreground="#08541C"
+                                           Margin="0,0,0,5"/>
+                                </Border>
+
+                                <!-- Список критериев -->
+                                <ItemsControl x:Name="icCriteria" 
+                                          ItemsSource="{Binding Criteria}"
+                                          Margin="0,0,0,20">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="#CCCCCC"   
+                                            BorderThickness="1" 
+                                            CornerRadius="5" 
+                                            Padding="15" 
+                                            Margin="0,0,0,10"
+                                            Background="#F9F9F9">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding CriterionName}" 
+                                                    FontWeight="Bold" 
+                                                    FontSize="16"
+                                                    Foreground="#08541C"
+                                                    Margin="0,0,0,10"/>
+
+                                                    <!-- Блок для вариантов (показываем если есть варианты) -->
+                                                    <StackPanel Visibility="{Binding ShowOptions, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                        <ItemsControl ItemsSource="{Binding Options}"
+                                                         Margin="0,10,0,0">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal" 
+                                                                        Margin="0,5,0,0">
+                                                                        <RadioButton Content="{Binding Value}" 
+                                                                         Margin="0,0,10,0"
+                                                                         FontSize="14"
+                                                                         IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </StackPanel>
+
+                                                    <!-- Блок для текстовых вариантов -->
+                                                    <!-- Блок для текстовых вариантов -->
+                                                    <StackPanel Visibility="{Binding ShowTextOptions, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Margin="0,10,0,0">
+
+                                                        <!-- Чекбокс "Ответить текстом" -->
+                                                        <CheckBox Content="Ответить текстом"
+              IsChecked="{Binding HasTextAnswer, Mode=TwoWay}"
+              FontWeight="SemiBold"
+              Margin="0,0,0,10"/>
+
+                                                        <!-- Текстовое поле (только если выбран чекбокс) -->
+                                                        <ItemsControl ItemsSource="{Binding TextOptions}"
+                  Margin="0,0,0,10">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Border BorderBrush="#E0E0E0"
+                        BorderThickness="0,0,0,1"
+                        Padding="0,0,0,10"
+                        Margin="0,0,0,10"
+                        Visibility="{Binding Path=DataContext.HasTextAnswer, 
+                                     RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}},
+                                     Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                                        <StackPanel>
+                                                                            <TextBlock Text="{Binding Text}" 
+                                   FontSize="14"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,5"/>
+                                                                            <TextBlock Text="Ответ:" 
+                                   FontWeight="SemiBold"
+                                   Margin="0,5,0,5"/>
+                                                                            <TextBox Text="{Binding ResultText, Mode=TwoWay}"
+                                 Height="60"
+                                 FontSize="14"
+                                 Padding="5"
+                                 AcceptsReturn="True"
+                                 TextWrapping="Wrap"
+                                 VerticalScrollBarVisibility="Auto"
+                                 BorderBrush="#CCCCCC"
+                                 BorderThickness="1"/>
+                                                                        </StackPanel>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <!-- Остальной код остается без изменений -->
+                                <!-- Дисциплины -->
+                                <Border BorderBrush="#08541C" 
+                                    BorderThickness="0,0,0,2" 
+                                    Margin="0,0,0,15">
+                                    <TextBlock Text="ДИСЦИПЛИНЫ" 
+                                           FontSize="18" 
+                                           FontWeight="Bold"
+                                           Foreground="#08541C"
+                                           Margin="0,0,0,5"/>
+                                </Border>
+
+                                <!-- Список дисциплин -->
+                                <ItemsControl x:Name="icDisciplines" 
+                                          ItemsSource="{Binding Disciplines}"
+                                          Margin="0,0,0,20">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="#CCCCCC" 
+                                                BorderThickness="1" 
+                                                CornerRadius="5" 
+                                                Padding="15" 
+                                                Margin="0,0,0,10"
+                                                Background="#F9F9F9">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding DisciplineName}" 
+                                                           FontWeight="Bold" 
+                                                           FontSize="16"
+                                                           Foreground="#08541C"
+                                                           Margin="0,0,0,10"/>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="100"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="100"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="100"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <!-- Рабочий балл -->
+                                                        <TextBlock Text="Рабочий балл:" 
+                                                               Grid.Column="0" 
+                                                               VerticalAlignment="Center" 
+                                                               Margin="0,0,5,0"
+                                                               FontSize="14"/>
+                                                        <TextBox Grid.Column="1" 
+                                                             Height="35"
+                                                             FontSize="14"
+                                                             Padding="5"
+                                                             BorderThickness="1"
+                                                             BorderBrush="#CCCCCC"
+                                                             VerticalContentAlignment="Center"
+                                                             Text="{Binding WorkingScore, Mode=TwoWay}"/>
+
+                                                        <!-- Коэффициент -->
+                                                        <TextBlock Text="Коэффициент:" 
+                                                               Grid.Column="2" 
+                                                               VerticalAlignment="Center" 
+                                                               Margin="20,0,5,0"
+                                                               FontSize="14"/>
+                                                        <TextBox Grid.Column="3" 
+                                                             Height="35"
+                                                             FontSize="14"
+                                                             Padding="5"
+                                                             BorderThickness="1"
+                                                             BorderBrush="#CCCCCC"
+                                                             VerticalContentAlignment="Center"
+                                                             Text="{Binding Coefficient, Mode=TwoWay}"/>
+
+                                                        <!-- Итог -->
+                                                        <TextBlock Text="Итог:" 
+                                                       Grid.Column="4" 
+                                                       VerticalAlignment="Center" 
+                                                       Margin="20,0,5,0"
+                                                       FontSize="14"/>
+                                                        <TextBox Grid.Column="5" 
+                                                         Height="35"
+                                                         FontSize="14"
+                                                         Padding="5"
+                                                         BorderThickness="1"
+                                                         BorderBrush="#CCCCCC"
+                                                         VerticalContentAlignment="Center"
+                                                         Text="{Binding FinalScore, Mode=OneWay}" 
+                                                         IsReadOnly="True" 
+                                                         Background="#F0F0F0"/>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <!-- Итоговые результаты испытания -->
+                                <Border BorderBrush="#08541C" 
+                                    BorderThickness="0,0,0,2" 
+                                    Margin="0,0,0,15">
+                                    <TextBlock Text="ИТОГОВЫЕ РЕЗУЛЬТАТЫ ИСПЫТАНИЯ" 
+                                           FontSize="18" 
+                                           FontWeight="Bold"
+                                           Foreground="#08541C"
+                                           Margin="0,0,0,5"/>
+                                </Border>
+
+                                <Grid Margin="0,0,0,20">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Испытание прошла -->
+                                    <Border Grid.Column="0" 
+                                        BorderBrush="#CCCCCC" 
+                                        BorderThickness="1" 
+                                        CornerRadius="5" 
+                                        Padding="15"
+                                        Background="#F9F9F9">
+                                        <StackPanel>
+                                            <TextBlock Text="Испытание прошла на" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="16"
+                                                   Foreground="#08541C"
+                                                   Margin="0,0,0,10"/>
+
+                                            <TextBox Text="{Binding TrialPassed, Mode=TwoWay}" 
+                                                     Width="100"
+                                                     Height="35"
+                                                     FontSize="14"
+                                                     Padding="5"
+                                                     BorderBrush="#CCCCCC"
+                                                     BorderThickness="1"
+                                                     VerticalContentAlignment="Center"
+                                                     HorizontalContentAlignment="Center"/>
+
+                                            <TextBlock Text="баллов" 
+                                           FontWeight="Bold" 
+                                           FontSize="16"
+                                           Foreground="#08541C"
+                                           Margin="0,0,0,10"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- Испытание не прошла -->
+                                    <Border Grid.Column="2" 
+                                        BorderBrush="#CCCCCC" 
+                                        BorderThickness="1" 
+                                        CornerRadius="5" 
+                                        Padding="15"
+                                        Background="#F9F9F9">
+                                        <StackPanel>
+                                            <TextBlock Text="Испытание не прошла" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="16"
+                                                   Foreground="#08541C"
+                                                   Margin="0,0,0,10"/>
+
+                                            <TextBlock Text="Причина:" 
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   Margin="0,0,0,5"/>
+
+                                            <TextBox Text="{Binding TrialFailed, Mode=TwoWay}"
+                                                 Height="100"
+                                                 FontSize="14"
+                                                 Padding="5"
+                                                 AcceptsReturn="True"
+                                                 TextWrapping="Wrap"
+                                                 VerticalScrollBarVisibility="Auto"
+                                                 BorderBrush="#CCCCCC"
+                                                 BorderThickness="1"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+
+                    <!-- Правая панель - навигация -->
+                    <Border Grid.Column="1" 
+                        Background="#E8F5E8" 
+                        BorderBrush="#CCCCCC"
+                        BorderThickness="1,0,0,0">
+                        <StackPanel VerticalAlignment="Center" 
+                                HorizontalAlignment="Center"
+                                Margin="10">
+                            <TextBlock Text="СОБАКИ" 
+                                   FontSize="18" 
+                                   FontWeight="Bold"
+                                   Foreground="#08541C"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,20"/>
+
+                            <TextBlock x:Name="txtDogCounter" 
+                                   Text="{Binding DogCounterText}" 
+                                   FontSize="16" 
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,20"/>
+
+                            <StackPanel>
+                                <Button x:Name="btnPrevDog" 
+                                    Content="↑ ПРЕДЫДУЩАЯ" 
+                                    Width="200"
+                                    Height="40"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Click="btnPrevDog_Click"
+                                    Style="{StaticResource ButtonStyleTHREE}"
+                                    Margin="0,0,0,10"
+                                    IsEnabled="{Binding IsPrevDogEnabled}"/>
+
+                                <Button x:Name="btnNextDog" 
+                                    Content="↓ СЛЕДУЮЩАЯ" 
+                                    Width="200"
+                                    Height="40"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Click="btnNextDog_Click"
+                                    Style="{StaticResource ButtonStyleTHREE}"
+                                    IsEnabled="{Binding IsNextDogEnabled}"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Список собак:" 
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Margin="0,20,0,5"
+                                   HorizontalAlignment="Left"/>
+
+                            <ListBox x:Name="lstDogs" 
+                                 Height="300"
+                                 Width="220"
+                                 Margin="0,0,0,20"
+                                 ItemsSource="{Binding AllDogsInEvent}"
+                                 DisplayMemberPath="DogName"
+                                 SelectedIndex="{Binding CurrentDogIndex, Mode=TwoWay}">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Кнопки -->
+            <StackPanel Grid.Row="2" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Center" 
+                    Margin="0,20,0,30">
+                <Button Content="НАЗАД" 
+                    Width="157" 
+                    Height="50" 
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Style="{StaticResource ButtonStyleTWO}"
+                    Click="btnBack_Click" 
+                    Margin="10"/>
+
+                <Button Content="СОХРАНИТЬ " 
+                    Width="142" 
+                    Height="50" 
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Style="{StaticResource ButtonStyle}"
+                    Click="btnSave_Click"
+                    Margin="10"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
