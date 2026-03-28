@@ -18,7 +18,7 @@ namespace Клуб_6.Окна
 {
     public partial class registration_owner : Window
     {
-        private Клуб6Context _context;
+        private КлубContext _context;
         private Owner _newOwner;
         private bool _isMouseClick = false;
         private string _phoneMask = "+7(000)000-00-00";
@@ -26,7 +26,7 @@ namespace Клуб_6.Окна
         public registration_owner()
         {
             InitializeComponent();
-            _context = new Клуб6Context();
+            _context = new КлубContext();
             _newOwner = new Owner();
             SetInitialWatermarks();
 
@@ -205,7 +205,7 @@ namespace Клуб_6.Окна
                     _newOwner.BirthDate = null;
                 }
 
-                _context.Owners.Add(_newOwner);
+                _context.Owner.Add(_newOwner);
                 _context.SaveChanges();
 
                 System.Windows.MessageBox.Show($"Владелец успешно зарегистрирован!\n",

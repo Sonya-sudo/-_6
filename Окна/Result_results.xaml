@@ -266,87 +266,48 @@
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
 
-                                <!-- Итоговые результаты испытания -->
-                                <Border BorderBrush="#08541C" 
-                                    BorderThickness="0,0,0,2" 
-                                    Margin="0,0,0,15">
+                                <!-- ИТОГОВЫЕ РЕЗУЛЬТАТЫ ИСПЫТАНИЯ -->
+                                <Border BorderBrush="#08541C" BorderThickness="0,0,0,2" Margin="0,0,0,15">
                                     <TextBlock Text="ИТОГОВЫЕ РЕЗУЛЬТАТЫ ИСПЫТАНИЯ" 
-                                           FontSize="18" 
-                                           FontWeight="Bold"
-                                           Foreground="#08541C"
-                                           Margin="0,0,0,5"/>
+               FontSize="18" FontWeight="Bold" Foreground="#08541C"/>
                                 </Border>
 
-                                <Grid Margin="0,0,0,20">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="20"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+                                <StackPanel Margin="0,0,0,20">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,15">
+                                        <RadioButton x:Name="rbPassed" Content="Испытание пройдено" 
+                     IsChecked="True" GroupName="ResultGroup"
+                     Checked="RbPassed_Checked" Margin="0,0,20,0" FontWeight="Bold"/>
+                                        <RadioButton x:Name="rbFailed" Content="Испытание не пройдено" 
+                     GroupName="ResultGroup" Checked="RbFailed_Checked" FontWeight="Bold"/>
+                                    </StackPanel>
 
-                                    <!-- Испытание прошла -->
-                                    <Border Grid.Column="0" 
-                                        BorderBrush="#CCCCCC" 
-                                        BorderThickness="1" 
-                                        CornerRadius="5" 
-                                        Padding="15"
-                                        Background="#F9F9F9">
-                                        <StackPanel>
-                                            <TextBlock Text="Испытание прошла на" 
-                                                   FontWeight="Bold" 
-                                                   FontSize="16"
-                                                   Foreground="#08541C"
-                                                   Margin="0,0,0,10"/>
-
-                                            <TextBox Text="{Binding TrialPassed, Mode=TwoWay}" 
-                                                     Width="100"
-                                                     Height="35"
-                                                     FontSize="14"
-                                                     Padding="5"
-                                                     BorderBrush="#CCCCCC"
-                                                     BorderThickness="1"
-                                                     VerticalContentAlignment="Center"
-                                                     HorizontalContentAlignment="Center"/>
-
-                                            <TextBlock Text="баллов" 
-                                           FontWeight="Bold" 
-                                           FontSize="16"
-                                           Foreground="#08541C"
-                                           Margin="0,0,0,10"/>
+                                    <Border x:Name="borderPassed" BorderBrush="#CCCCCC" BorderThickness="1" 
+            CornerRadius="5" Padding="15" Background="#F9F9F9">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Text="Испытание прошла на" FontWeight="Bold" FontSize="16"
+                       Foreground="#08541C" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                            <TextBox Text="{Binding TrialPassed, Mode=OneWay}" 
+                     Width="100" Height="35" FontSize="14"
+                     Padding="5" Background="#F0F0F0" BorderBrush="#CCCCCC" BorderThickness="1"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" 
+                     IsReadOnly="True" IsTabStop="False" Margin="0,0,10,0"/>
+                                            <TextBlock Text="баллов" FontWeight="Bold" FontSize="16" Foreground="#08541C"/>
                                         </StackPanel>
                                     </Border>
 
-                                    <!-- Испытание не прошла -->
-                                    <Border Grid.Column="2" 
-                                        BorderBrush="#CCCCCC" 
-                                        BorderThickness="1" 
-                                        CornerRadius="5" 
-                                        Padding="15"
-                                        Background="#F9F9F9">
+                                    <Border x:Name="borderFailed" BorderBrush="#CCCCCC" BorderThickness="1" 
+            CornerRadius="5" Padding="15" Background="#F9F9F9" Visibility="Collapsed">
                                         <StackPanel>
-                                            <TextBlock Text="Испытание не прошла" 
-                                                   FontWeight="Bold" 
-                                                   FontSize="16"
-                                                   Foreground="#08541C"
-                                                   Margin="0,0,0,10"/>
-
-                                            <TextBlock Text="Причина:" 
-                                                   FontSize="14"
-                                                   FontWeight="SemiBold"
-                                                   Margin="0,0,0,5"/>
-
-                                            <TextBox Text="{Binding TrialFailed, Mode=TwoWay}"
-                                                 Height="100"
-                                                 FontSize="14"
-                                                 Padding="5"
-                                                 AcceptsReturn="True"
-                                                 TextWrapping="Wrap"
-                                                 VerticalScrollBarVisibility="Auto"
-                                                 BorderBrush="#CCCCCC"
-                                                 BorderThickness="1"/>
+                                            <TextBlock Text="Испытание не прошла" FontWeight="Bold" FontSize="16"
+                       Foreground="#08541C" Margin="0,0,0,10"/>
+                                            <TextBlock Text="Причина:" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                                            <TextBox Text="{Binding TrialFailed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Height="100" FontSize="14" Padding="5" AcceptsReturn="True"
+                     TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
+                     BorderBrush="#CCCCCC" BorderThickness="1"/>
                                         </StackPanel>
                                     </Border>
-                                </Grid>
+                                </StackPanel>
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>

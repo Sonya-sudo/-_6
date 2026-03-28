@@ -11,7 +11,7 @@ namespace Клуб_6.Окна
 {
     public partial class ChooseDog : Window
     {
-        private Клуб6Context _context;
+        private КлубContext _context;
         private int _compositionId;
         private string _compositionName;
         private int _defaultStatusId = 1;
@@ -32,7 +32,7 @@ namespace Клуб_6.Окна
         {
             InitializeComponent();
 
-            _context = new Клуб6Context();
+            _context = new КлубContext();
             _compositionId = compositionId;
             _compositionName = compositionName;
 
@@ -65,7 +65,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var statuses = _context.EventStatuses.ToList();
+                var statuses = _context.EventStatus.ToList();
                 var defaultStatus = statuses.FirstOrDefault(s =>
                     s.StatusName.Contains("процесс") ||
                     s.StatusName.Contains("планир") ||
@@ -94,7 +94,7 @@ namespace Клуб_6.Окна
                 _allDogs.Clear();
 
                 // Получаем всех живых собак
-                var dogs = _context.Dogs
+                var dogs = _context.Dog
                     .Where(d => d.IsAlive == true)
                     .OrderBy(d => d.DogName)
                     .ToList();
@@ -232,28 +232,26 @@ namespace Клуб_6.Окна
                     Judge2 = txtJudge2.Text.Trim(),
                     CommitteeChairman = txtChairman.Text.Trim(),
                     Organization = txtOrganization.Text.Trim(),
-                    TestOrganizer = txtOrganizer.Text.Trim(),
-                    Host = txtHost.Text.Trim()
+                    TestOrganizer = txtOrganizer.Text.Trim()
                 };
 
-                _context.Events.Add(newEvent);
+                _context.Event.Add(newEvent);
                 _context.SaveChanges();
 
                 int participantNumber = 1;
                 foreach (var selectedDog in SelectedDogs)
                 {
                     // Находим собаку в базе
-                    var dog = _context.Dogs.Find(selectedDog.ChipNumber);
+                    var dog = _context.Dog.Find(selectedDog.ChipNumber);
 
                     var dogList = new DogList
                     {
                         EventId = newEvent.EventId,
                         DogId = selectedDog.ChipNumber,
-                        ParticipantNumber = participantNumber.ToString("D3"),
                         DogName = dog?.DogName ?? selectedDog.DogName
                     };
 
-                    _context.DogLists.Add(dogList);
+                    _context.DogList.Add(dogList);
                     participantNumber++;
                 }
 

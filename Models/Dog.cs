@@ -29,6 +29,8 @@ public partial class Dog
 
     public int? KennelId { get; set; }
 
+    public string? Pedigree { get; set; }
+
     public virtual ICollection<DogList> DogLists { get; set; } = new List<DogList>();
 
     public virtual ICollection<DogOwner> DogOwners { get; set; } = new List<DogOwner>();

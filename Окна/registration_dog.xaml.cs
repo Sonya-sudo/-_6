@@ -17,12 +17,12 @@ namespace Клуб_6.Окна
 {
     public partial class registration_dog : Window
     {
-        private Клуб6Context _context; 
+        private КлубContext _context; 
 
         public registration_dog()
         {
             InitializeComponent();
-            _context = new Клуб6Context();
+            _context = new КлубContext();
 
             LoadKennels();
             LoadOwners();
@@ -33,7 +33,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var kennels = _context.Kennels
+                var kennels = _context.Kennel
                     .OrderBy(k => k.KennelName)
                     .ToList();
 
@@ -65,7 +65,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var owners = _context.Owners
+                var owners = _context.Owner
                     .OrderBy(o => o.LastName)
                     .ThenBy(o => o.FirstName)
                     .ToList();
@@ -122,6 +122,7 @@ namespace Клуб_6.Окна
             cmbKennel.SelectedIndex = 0;
             cmbOwner.SelectedIndex = 0;
             txtName.Focus();
+            txtPedigreeNumber = null;
         }
         private void SetInitialWatermarks()
         {
@@ -133,6 +134,7 @@ namespace Клуб_6.Окна
             TextBox_LostFocus(txtWeight, null);
             TextBox_LostFocus(txtMother, null);
             TextBox_LostFocus(txtFather, null);
+            TextBox_LostFocus(txtPedigreeNumber, null);
         }
 
         private void SetWatermarkIfEmpty(TextBox textBox)
@@ -216,7 +218,7 @@ namespace Клуб_6.Окна
                 return;
             }
 
-            var existingDog = _context.Dogs.Find(chipNumber);
+            var existingDog = _context.Dog.Find(chipNumber);
             if (existingDog != null)
             {
                 MessageBox.Show("Собака с таким номером чипа уже существует!", "Ошибка",
@@ -267,6 +269,7 @@ namespace Клуб_6.Окна
                 IsAlive = chkIsAlive.IsChecked ?? true,
                 BirthDate = DateOnly.FromDateTime(dpBirthDate.SelectedDate.Value),
                 Gender = rbMale.IsChecked == true ? "Male" : "Female"
+
             };
 
             if (txtHeight.Text != txtHeight.Tag?.ToString() && int.TryParse(txtHeight.Text, out int height) && height > 0)
@@ -282,8 +285,10 @@ namespace Клуб_6.Окна
                     newDog.KennelId = kennelId;
                 }
             }
+            string pedigreeNumber = txtPedigreeNumber.Text.Trim();
+            newDog.Pedigree = string.IsNullOrWhiteSpace(pedigreeNumber) ? null : pedigreeNumber;
 
-            _context.Dogs.Add(newDog);
+            _context.Dog.Add(newDog);
             _context.SaveChanges();
 
             if (cmbOwner.SelectedValue != null && cmbOwner.SelectedIndex > 0)
@@ -296,7 +301,7 @@ namespace Клуб_6.Окна
                         ChipNumber = newDog.ChipNumber
                     };
 
-                    _context.DogOwners.Add(ownerDogLink);
+                    _context.DogOwner.Add(ownerDogLink);
                     _context.SaveChanges();
                 }
             }

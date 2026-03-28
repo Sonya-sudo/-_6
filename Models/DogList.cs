@@ -11,8 +11,6 @@ public partial class DogList
 
     public int DogId { get; set; }
 
-    public string? ParticipantNumber { get; set; }
-
     public string? DogName { get; set; }
 
     public string? Owner { get; set; }

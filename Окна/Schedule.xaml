@@ -26,7 +26,7 @@
                     </Grid.RowDefinitions>
 
                     <!-- Заголовок списка -->
-                    <Border Grid.Row="0" Background="#08541C" CornerRadius="10,10,0,0" Padding="10">
+                    <Border Grid.Row="0" Background="#08541C" CornerRadius="10,10,0,0" Padding="15">
                         <TextBlock Text="РАСПИСАНИЕ" 
                                    HorizontalAlignment="Center" 
                                    FontSize="24" 
@@ -106,7 +106,7 @@
                                 FontWeight="Bold"
                                 Style="{StaticResource ButtonStyleTHREE}"
                                 FontSize="16"
-                                Padding="20,10"
+                                Padding="30,12"
                                 Margin="5"/>
 
                         <Button Content="ДОБАВИТЬ" 

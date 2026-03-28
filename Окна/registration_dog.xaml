@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Клуб_6.Окна"
         mc:Ignorable="d"
-        Title="registration_dog"  Height="674" Width="800"    
+        Title="registration_dog"    
         WindowState="Maximized"
         WindowStyle="None">
 
@@ -13,15 +13,23 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="30">
                 <!-- Заголовок -->
-                <TextBlock Text="РЕГИСТРАЦИЯ СОБАКИ" 
-               FontSize="24" 
-               FontWeight="Bold"
-               Foreground="White"
-               HorizontalAlignment="Center"
-               Margin="0,0,0,20"/>
+                <Border CornerRadius="20" 
+                        BorderThickness="1" 
+                        Height="55" 
+                        Width="410"
+                        Background="#B0E75B"
+                        Margin="0,2,20,0"
+                        HorizontalAlignment="Center">
+                    <TextBlock Text="РЕГИСТРАЦИЯ СОБАКИ" 
+                               FontSize="24" 
+                               FontWeight="Bold"
+                               Foreground="Black"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
 
-                <!-- Основные поля -->
-                <Grid>
+                <!-- Основные поля в 2 колонки -->
+                <Grid Margin="0,20,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="20"/>
@@ -29,161 +37,194 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Левая колонка -->
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="Номер чипа*:" FontWeight="Bold" Foreground="White"/>
-                        <TextBox x:Name="txtChip" FontSize="14" Padding="5" Height="30" Width="351,6"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                             Tag="Например: 123456"/>
+                    <Border Grid.Column="0" 
+                            Background="#B0E75B" 
+                            CornerRadius="5" 
+                            Padding="10" 
+                            HorizontalAlignment="Stretch">
+                        <StackPanel>
+                            <TextBlock Text="Номер чипа*:" FontWeight="Bold" Foreground="Black" Margin="0,0,0,5"/>
+                            <TextBox x:Name="txtChip" FontSize="14" Padding="5" Height="30"
+                                     GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                     Tag="Например: 123456"
+                                     Background="White"/>
 
-                        <!-- Кличка -->
-                        <TextBlock Text="Кличка*:" FontWeight="Bold" Foreground="White" Margin="0,10,0,5"/>
-                        <TextBox x:Name="txtName" FontSize="14" Padding="5" Height="30"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                             Tag="Например: ASTANA STAR"/>
+                            <TextBlock Text="Кличка*:" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                            <TextBox x:Name="txtName" FontSize="14" Padding="5" Height="30"
+                                     GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                     Tag="Например: ASTANA STAR"
+                                     Background="White"/>
 
-                        <!-- Порода -->
-                        <TextBlock Text="Порода*:" FontWeight="Bold" Foreground="White" Margin="0,10,0,5"/>
-                        <TextBox x:Name="txtBreed" FontSize="14" Padding="5" Height="30"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                             Tag="Например: DD"/>
+                            <TextBlock Text="Порода*:" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                            <TextBox x:Name="txtBreed" FontSize="14" Padding="5" Height="30"
+                                     GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                     Tag="Например: DD"
+                                     Background="White"/>
 
-                        <!-- Окрас -->
-                        <TextBlock Text="Окрас:" FontWeight="Bold" Foreground="White" Margin="0,10,0,5"/>
-                        <TextBox x:Name="txtColor" FontSize="14" Padding="5" Height="30"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                             Tag="Например: Коричневый"/>
-                        <!-- Дата рождения -->
-                        <TextBlock Text="Дата рождения*:" FontWeight="Bold" Foreground="White" Margin="0,10,0,5"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                            <DatePicker x:Name="dpBirthDate" FontSize="14" Height="30" Width="200"/>
+                            <TextBlock Text="Окрас:" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                            <TextBox x:Name="txtColor" FontSize="14" Padding="5" Height="30"
+                                     GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                     Tag="Например: Коричневый"
+                                     Background="White"/>
+
+                            <TextBlock Text="Дата рождения*:" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                            <DatePicker x:Name="dpBirthDate" FontSize="14" Height="30" Background="White"/>
                         </StackPanel>
-                    </StackPanel>
+                    </Border>
 
                     <!-- Правая колонка -->
-                    <StackPanel Grid.Column="2">
-                        <!-- Рост -->
-                        <TextBlock Text="Рост (см):" FontWeight="Bold" Foreground="White" Margin="0,0,0,5"/>
-                        <TextBox x:Name="txtHeight" FontSize="14" Padding="5" Height="30"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                             Tag="Например: 70"/>
+                    <Border Grid.Column="2" 
+                            Background="#B0E75B" 
+                            CornerRadius="5" 
+                            Padding="10" 
+                            HorizontalAlignment="Stretch">
+                        <StackPanel>
+                            <TextBlock Text="Рост (см):" FontWeight="Bold" Foreground="Black" Margin="0,0,0,5"/>
+                            <TextBox x:Name="txtHeight" FontSize="14" Padding="5" Height="30"
+                                     GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                     Tag="Например: 70"
+                                     Background="White"/>
 
-                        <!-- Вес -->
-                        <TextBlock Text="Вес (кг):" FontWeight="Bold" Foreground="White" Margin="0,10,0,5"/>
-                        <TextBox x:Name="txtWeight" FontSize="14" Padding="5" Height="30"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                             Tag="Например: 65"/>
+                            <TextBlock Text="Вес (кг):" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                            <TextBox x:Name="txtWeight" FontSize="14" Padding="5" Height="30"
+                                     GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                     Tag="Например: 65"
+                                     Background="White" />
 
-                        <!-- Пол -->
-                        <TextBlock Text="Пол*:" FontWeight="Bold" Foreground="White" Margin="0,10,0,5"/>
-                        <StackPanel Orientation="Horizontal">
-                            <RadioButton x:Name="rbMale" Content="Кобель" FontSize="14" Margin="0,0,20,0" Foreground="White"/>
-                            <RadioButton x:Name="rbFemale" Content="Сука" FontSize="14" Foreground="White"/>
+                            <TextBlock Text="Номер родословной:" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                            <TextBox x:Name="txtPedigreeNumber" 
+                                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                 FontSize="14" 
+                                 Padding="5" 
+                                 Height="30"
+                                 Tag="Например: ZB№123"
+                                 Background="White"/>
+
+                            <TextBlock Text="Пол*:" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton x:Name="rbMale" Content="Кобель" FontSize="14" Margin="0,0,20,0" Foreground="Black"/>
+                                <RadioButton x:Name="rbFemale" Content="Сука" FontSize="14" Foreground="Black"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Питомник:" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox x:Name="cmbKennel" FontSize="14" Height="30" Width="250" Background="White"/>
+                                <Button x:Name="btnAddKennel" Content="+" 
+                                        Click="AddKennelButton_Click" Margin="5,0,0,0" Width="35"
+                                        Background="#444444" Foreground="White" FontWeight="Bold" FontSize="16"
+                                        ToolTip="Добавить новый питомник"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Владелец *:" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox x:Name="cmbOwner" FontSize="14" Height="30" Width="250" Background="White"/>
+                                <Button x:Name="btnAddOwner" Content="+" 
+                                        Click="AddOwnerButton_Click" Margin="5,0,0,0" Width="35"
+                                        Background="#444444" Foreground="White" FontWeight="Bold" FontSize="16"
+                                        ToolTip="Добавить нового владельца"/>
+                            </StackPanel>
                         </StackPanel>
-
-                        <!-- Питомник -->
-                        <TextBlock Text="Питомник:" FontWeight="Bold" Foreground="White" Margin="0,10,0,5"/>
-                        <StackPanel Orientation="Horizontal">
-                            <ComboBox x:Name="cmbKennel" FontSize="14" Height="30" Width="300"/>
-                            <Button x:Name="btnAddKennel" Content="+" 
-                            Click="AddKennelButton_Click" Margin="5,0,0,0" Padding="10,5" Width="40"
-                            ToolTip="Добавить новый питомник"/>
-                        </StackPanel>
-
-                        <!-- Владелец -->
-                        <TextBlock Text="Владелец *:" FontWeight="Bold" Foreground="White" Margin="0,10,0,5"/>
-                        <StackPanel Orientation="Horizontal">
-                            <ComboBox x:Name="cmbOwner" FontSize="14" Height="30" Width="300"/>
-                            <Button x:Name="btnAddOwner" Content="+" 
-                            Click="AddOwnerButton_Click" Margin="5,0,0,0" Padding="10,5" Width="40"
-                            ToolTip="Добавить нового владельца"/>
-                        </StackPanel>
-                    </StackPanel>
+                    </Border>
                 </Grid>
 
-                <!-- Родители -->
-                <TextBlock Text="РОДИТЕЛИ" FontWeight="Bold" Foreground="White" 
-               FontSize="16" Margin="0,30,0,10" HorizontalAlignment="Center"/>
+                <!-- Блок Родители -->
+                <Border Background="#B0E75B" 
+                        CornerRadius="5" 
+                        Padding="15" 
+                        Margin="0,20,0,0"
+                        HorizontalAlignment="Stretch">
+                    <StackPanel>
+                        <TextBlock Text="РОДИТЕЛИ" 
+                                   FontWeight="Bold" 
+                                   Foreground="Black" 
+                                   FontSize="16" 
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,15"/>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                    <!-- Мать -->
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="Мать (кличка):" FontWeight="Bold" Foreground="White" Margin="0,0,0,5"/>
-                        <TextBox x:Name="txtMother" FontSize="14" Padding="5" Height="30"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                             Tag="Например: ASTANA STAR"/>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Мать (кличка):" FontWeight="Bold" Foreground="Black" Margin="0,0,0,5"/>
+                                <TextBox x:Name="txtMother" FontSize="14" Padding="5" Height="30"
+                                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                         Tag="Например: ASTANA STAR"
+                                         Background="White"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Отец (кличка):" FontWeight="Bold" Foreground="Black" Margin="0,0,0,5"/>
+                                <TextBox x:Name="txtFather" FontSize="14" Padding="5" Height="30"
+                                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                         Tag="Например: SUDOSTSTERN LOKI"
+                                         Background="White"/>
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
+                </Border>
 
-                    <!-- Отец -->
-                    <StackPanel Grid.Column="2">
-                        <TextBlock Text="Отец (кличка):" FontWeight="Bold" Foreground="White" Margin="0,0,0,5"/>
-                        <TextBox x:Name="txtFather" FontSize="14" Padding="5" Height="30"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                             Tag="Например: SUDOSTSTERN LOKI"/>
-                    </StackPanel>
-                </Grid>
+                <!-- Блок Статус -->
+                <StackPanel>
+                    <CheckBox x:Name="chkIsAlive" Content="Собака жива" FontWeight="Bold" Foreground="Black" 
+                                  IsChecked="True" FontSize="14" Margin="5,10,0,0"/>
+                </StackPanel>
 
-                <!-- Статус -->
-                <CheckBox x:Name="chkIsAlive" Content="Собака жива" FontWeight="Bold" Foreground="White" 
-                  Margin="0,20,0,0" IsChecked="True"/>
 
                 <!-- Кнопки -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,40,0,0">
                     <Border CornerRadius="20" 
-            BorderThickness="1" 
-            Height="45" 
-            Width="150"
-            Background="#444444"
-            Margin="0,0,20,0">
+                            BorderThickness="1" 
+                            Height="45" 
+                            Width="150"
+                            Background="#444444"
+                            Margin="0,0,20,0">
                         <Button x:Name="btnBack" 
-                Content="НАЗАД" 
-                Click="BackButton_Click"
-                Style="{StaticResource ButtonStyleTHREE}"
-                FontWeight="Bold"
-                FontSize="25"/>
+                                Content="НАЗАД" 
+                                Click="BackButton_Click"
+                                Style="{StaticResource ButtonStyleTHREE}"
+                                FontWeight="Bold"
+                                FontSize="25"/>
                     </Border>
 
                     <Border CornerRadius="20" 
-            BorderThickness="1" 
-            Height="45" 
-            Width="160"
-            Background="#444444"
-            Margin="0,0,20,0">
+                            BorderThickness="1" 
+                            Height="45" 
+                            Width="160"
+                            Background="#444444"
+                            Margin="0,0,20,0">
                         <Button x:Name="btnSave" 
-                Content="СОХРАНИТЬ" 
-                Click="SaveButton_Click"
-                Style="{StaticResource ButtonStyle}"
-                FontWeight="Bold"
-                FontSize="25" />
+                                Content="СОХРАНИТЬ" 
+                                Click="SaveButton_Click"
+                                Style="{StaticResource ButtonStyle}"
+                                FontWeight="Bold"
+                                FontSize="25" />
                     </Border>
 
                     <Border CornerRadius="20" 
-            BorderThickness="1" 
-            Height="45" 
-            Width="150"
-            Background="#6E0A0F"
-            Margin="0,0,0,0">
+                            BorderThickness="1" 
+                            Height="45" 
+                            Width="150"
+                            Background="#6E0A0F"
+                            Margin="0,0,0,0">
                         <Button x:Name="btnClose" 
-                Content="ВЫХОД" 
-                Click="CloseButton_Click"
-                Style="{StaticResource ButtonStyleTWO}"
-                FontWeight="Bold"
-                FontSize="25"/>
+                                Content="ВЫХОД" 
+                                Click="CloseButton_Click"
+                                Style="{StaticResource ButtonStyleTWO}"
+                                FontWeight="Bold"
+                                FontSize="25"/>
                     </Border>
                 </StackPanel>
 
-                <!-- Примечание -->
                 <TextBlock Text="* - обязательные поля для заполнения" 
-               FontSize="12" 
-               Foreground="White" 
-               Margin="0,20,0,0"
-               HorizontalAlignment="Center"/>
-
+                           FontSize="12" 
+                           Foreground="#FFD700" 
+                           FontWeight="Bold"
+                           Margin="0,20,0,0"
+                           HorizontalAlignment="Center"/>
             </StackPanel>
         </ScrollViewer>
     </Border>

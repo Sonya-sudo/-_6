@@ -4,46 +4,46 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Клуб_6.Models;
 
-public partial class Клуб6Context : DbContext
+public partial class КлубContext : DbContext
 {
-    public Клуб6Context()
+    public КлубContext()
     {
     }
 
-    public Клуб6Context(DbContextOptions<Клуб6Context> options)
+    public КлубContext(DbContextOptions<КлубContext> options)
         : base(options)
     {
     }
 
-    public virtual DbSet<Criterion> Criteria { get; set; }
+    public virtual DbSet<Criterion> Criterion { get; set; }
 
-    public virtual DbSet<Discipline> Disciplines { get; set; }
+    public virtual DbSet<Discipline> Discipline { get; set; }
 
-    public virtual DbSet<Dog> Dogs { get; set; }
+    public virtual DbSet<Dog> Dog { get; set; }
 
-    public virtual DbSet<DogCriteriaResults_DogList> DogCriteriaResultsDogLists { get; set; } 
+    public virtual DbSet<DogCriteriaResults_DogList> DogCriteriaResultsDogList { get; set; } 
 
-    public virtual DbSet<DogDiscipline> DogDisciplines { get; set; }
+    public virtual DbSet<DogDiscipline> DogDiscipline { get; set; }
 
-    public virtual DbSet<DogList> DogLists { get; set; }
+    public virtual DbSet<DogList> DogList { get; set; }
 
-    public virtual DbSet<DogOwner> DogOwners { get; set; }
+    public virtual DbSet<DogOwner> DogOwner { get; set; }
 
-    public virtual DbSet<Event> Events { get; set; }
+    public virtual DbSet<Event> Event { get; set; }
 
-    public virtual DbSet<EventComposition> EventCompositions { get; set; }
+    public virtual DbSet<EventComposition> EventComposition { get; set; }
 
-    public virtual DbSet<EventStatus> EventStatuses { get; set; }
+    public virtual DbSet<EventStatus> EventStatus { get; set; }
 
-    public virtual DbSet<Kennel> Kennels { get; set; }
+    public virtual DbSet<Kennel> Kennel { get; set; }
 
-    public virtual DbSet<Option> Options { get; set; }
+    public virtual DbSet<Option> Option { get; set; }
 
-    public virtual DbSet<Owner> Owners { get; set; }
+    public virtual DbSet<Owner> Owner { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=SOFYCO;Database=Клуб_6;TrustServerCertificate=True;Integrated Security=True;");
+        => optionsBuilder.UseSqlServer("Server=desktop-8859boh\\sqlexpress;Database=Клуб;TrustServerCertificate=True;Integrated Security=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -174,9 +174,6 @@ public partial class Клуб6Context : DbContext
             entity.Property(e => e.Owner)
                 .HasMaxLength(150)
                 .IsUnicode(false);
-            entity.Property(e => e.ParticipantNumber)
-                .HasMaxLength(20)
-                .IsUnicode(false);
             entity.Property(e => e.TrialPassed).HasColumnName("TrialPassed");
             entity.Property(e => e.TrialFailed)
                 .HasColumnName("TrialFailed")
@@ -242,9 +239,6 @@ public partial class Клуб6Context : DbContext
             entity.Property(e => e.TestOrganizer)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.Host) 
-            .HasMaxLength(100)
-            .IsUnicode(false);
 
             entity.HasOne(d => d.Composition).WithMany(p => p.Events)
                 .HasForeignKey(d => d.CompositionId)

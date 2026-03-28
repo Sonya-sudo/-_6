@@ -18,13 +18,13 @@ namespace Клуб_6.Окна
 {
     public partial class nursery_file : Window
     {
-        private Клуб6Context _context;
+        private КлубContext _context;
         public ObservableCollection<Kennel> NurseryList { get; set; }
 
         public nursery_file()
         {
             InitializeComponent();
-            _context = new Клуб6Context();
+            _context = new КлубContext();
             LoadNurseries();
             DataContext = this;
         }
@@ -33,7 +33,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var nurseries = _context.Kennels
+                var nurseries = _context.Kennel
                     .OrderBy(n => n.KennelName)
                     .ToList();
 
@@ -58,7 +58,10 @@ namespace Клуб_6.Окна
         {
             Application.Current.Shutdown();
         }
-
+        private void BoxEvents_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            btnChange_Click(sender, e);
+        }
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
             if (BoxNursery.SelectedItem == null)
@@ -103,7 +106,7 @@ namespace Клуб_6.Окна
 
             try
             {
-                var dogsInKennel = _context.Dogs
+                var dogsInKennel = _context.Dog
                     .Where(d => d.KennelId == selectedNursery.KennelId)
                     .ToList();
 
@@ -118,10 +121,10 @@ namespace Клуб_6.Окна
                     _context.SaveChanges();
                 }
 
-                var kennelToDelete = _context.Kennels.Find(selectedNursery.KennelId);
+                var kennelToDelete = _context.Kennel.Find(selectedNursery.KennelId);
                 if (kennelToDelete != null)
                 {
-                    _context.Kennels.Remove(kennelToDelete);
+                    _context.Kennel.Remove(kennelToDelete);
                     _context.SaveChanges();
                 }
 

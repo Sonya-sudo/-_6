@@ -19,8 +19,6 @@ public partial class Event
 
     public string? Judge2 { get; set; }
 
-    public string? Host { get; set; } 
-
     public string? CommitteeChairman { get; set; }
 
     public string? Organization { get; set; }

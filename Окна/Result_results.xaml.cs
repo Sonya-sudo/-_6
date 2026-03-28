@@ -12,7 +12,7 @@ namespace Клуб_6.Окна
 {
     public partial class Result_results : Window, INotifyPropertyChanged
     {
-        private Клуб6Context _context;
+        private КлубContext _context;
         private int _eventId;
         private Event _событие;
         private Dog _собака;
@@ -136,7 +136,7 @@ namespace Клуб_6.Окна
         public Result_results(int eventId)
         {
             InitializeComponent();
-            _context = new Клуб6Context();
+            _context = new КлубContext();
             _eventId = eventId;
 
             Criteria = new ObservableCollection<CriterionViewModel>();
@@ -152,7 +152,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                _событие = _context.Events
+                _событие = _context.Event
                     .Include(e => e.Composition)
                     .Include(e => e.Status)
                     .FirstOrDefault(e => e.EventId == _eventId);
@@ -165,7 +165,7 @@ namespace Клуб_6.Окна
 
                 EventDateText = _событие.EventDate.ToString("dd.MM.yyyy");
 
-                _allDogsInEvent = _context.DogLists
+                _allDogsInEvent = _context.DogList
                     .Include(dl => dl.Dog)
                     .Where(dl => dl.EventId == _eventId)
                     .OrderBy(dl => dl.DogName)
@@ -247,14 +247,14 @@ namespace Клуб_6.Окна
                     return;
                 }
 
-                // Загружаем дисциплины только для этого CompositionID
-                var всеДисциплины = _context.Disciplines
+                var всеДисциплины = _context.Discipline
                     .Where(d => d.CompositionID == _событие.Composition.CompositionId)
                     .ToList();
 
                 if (!всеДисциплины.Any())
                 {
                     MessageBox.Show("Для этого шаблона не найдены дисциплины", "Информация");
+                    // Можно скрыть блок дисциплин или показать заглушку
                     return;
                 }
 
@@ -266,12 +266,6 @@ namespace Клуб_6.Окна
                         DisciplineName = дисциплина.DisciplineName ?? "Дисциплина",
                         Coefficient = дисциплина.Coefficient ?? 1
                     };
-
-                    дисциплинаVM.OnWorkingScoreChanged += (sender, args) =>
-                    {
-                        CalculateTrialPassed();
-                    };
-
                     Disciplines.Add(дисциплинаVM);
                 }
             }
@@ -280,7 +274,28 @@ namespace Клуб_6.Окна
                 MessageBox.Show($"Ошибка загрузки дисциплин: {ex.Message}", "Ошибка");
             }
         }
-
+        private bool _isFailed;
+        public bool IsFailed
+        {
+            get => _isFailed;
+            set
+            {
+                if (_isFailed != value)
+                {
+                    _isFailed = value;
+                    OnPropertyChanged();
+                    // Управление видимостью блоков
+                    borderPassed.Visibility = !value ? Visibility.Visible : Visibility.Collapsed;
+                    borderFailed.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+                    if (value)
+                        TrialPassed = null;               // если не пройдено – баллы = null
+                    else
+                        CalculateTrialPassed();            // если пройдено – пересчёт
+                }
+            }
+        }
+        private void RbPassed_Checked(object sender, RoutedEventArgs e) => IsFailed = false;
+        private void RbFailed_Checked(object sender, RoutedEventArgs e) => IsFailed = true;
         private void LoadCriteria()
         {
             try
@@ -293,11 +308,9 @@ namespace Клуб_6.Окна
                     return;
                 }
 
-                // Также установите название мероприятия
                 EventNameText = _событие.Composition?.Title ?? "Без названия";
 
-                // Загружаем критерии только для этого CompositionID
-                var allCriteria = _context.Criteria
+                var allCriteria = _context.Criterion
                     .Where(c => c.CompositionID == _событие.Composition.CompositionId)
                     .Include(c => c.Options)
                     .ToList();
@@ -316,43 +329,43 @@ namespace Клуб_6.Окна
                         CriterionName = criterion.CriterionName ?? "Критерий"
                     };
 
-                    // Загружаем варианты для этого критерия
+                    // Добавляем все опции без фильтрации по типу, а определяем тип по наличию данных
                     foreach (var option in criterion.Options)
                     {
-                        // Только радио-варианты
-                        if (option.OptionType == "radio" || option.OptionType == "standard")
+                        // Если есть OptionValue – это радио-вариант
+                        if (!string.IsNullOrWhiteSpace(option.OptionValue))
                         {
                             criterionVM.Options.Add(new OptionViewModel
                             {
                                 OptionId = option.OptionId,
-                                Value = option.OptionValue ?? "Вариант",
+                                Value = option.OptionValue,
                                 OptionType = "radio",
                                 CriterionId = criterion.CriterionID,
                                 ParentCriterion = criterionVM
                             });
                         }
-                    }
-
-                    // Добавляем текстовые поля отдельно (они не из Options таблицы)
-                    foreach (var option in criterion.Options)
-                    {
-                        if (option.OptionType == "text" || option.OptionType == "text_input")
+                        // Если есть TextInfo – это текстовый вариант
+                        else if (!string.IsNullOrWhiteSpace(option.TextInfo))
                         {
                             criterionVM.TextOptions.Add(new TextOptionViewModel
                             {
-                                OptionId = option.OptionId, // Это ID текстового поля из Options
-                                Text = option.TextInfo ?? "Введите ответ",
+                                OptionId = option.OptionId,
+                                Text = option.TextInfo,
                                 OptionType = "text",
                                 CriterionId = criterion.CriterionID
                             });
                         }
+                        // Если нет ни OptionValue, ни TextInfo – пропускаем (или можно добавить как радио с пустым значением)
                     }
 
-                    // Добавляем критерий только если у него есть варианты
-                    if (criterionVM.Options.Any() || criterionVM.TextOptions.Any())
-                    {
-                        Criteria.Add(criterionVM);
-                    }
+                    // Добавляем критерий всегда, даже если нет опций (тогда покажем заглушку)
+                    Criteria.Add(criterionVM);
+                }
+
+                // Если все критерии без опций – покажем сообщение
+                if (!Criteria.Any())
+                {
+                    MessageBox.Show("Ни один критерий не имеет вариантов ответа", "Ошибка");
                 }
             }
             catch (Exception ex)
@@ -370,7 +383,7 @@ namespace Клуб_6.Окна
                 var currentRecordId = _allDogsInEvent[_currentDogIndex].RecordId;
 
                 // Загружаем существующие ответы из таблицы DogCriteriaResultsDogLists
-                var existingLinks = _context.DogCriteriaResultsDogLists
+                var existingLinks = _context.DogCriteriaResultsDogList
                     .Where(l => l.RecordId == currentRecordId)
                     .ToList();
 
@@ -413,7 +426,7 @@ namespace Клуб_6.Окна
                 }
 
                 // Загружаем результаты дисциплин (остается без изменений)
-                var existingDisciplineResults = _context.DogDisciplines
+                var existingDisciplineResults = _context.DogDiscipline
                     .Where(dd => dd.RecordId == currentRecordId)
                     .ToList();
 
@@ -564,7 +577,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var событие = _context.Events.Find(_eventId);
+                var событие = _context.Event.Find(_eventId);
                 if (событие != null)
                 {
                     событие.StatusId = statusId;
@@ -611,10 +624,10 @@ namespace Клуб_6.Окна
             var currentRecordId = _allDogsInEvent[_currentDogIndex].RecordId;
 
             // Удаляем старые результаты
-            var oldLinks = _context.DogCriteriaResultsDogLists
+            var oldLinks = _context.DogCriteriaResultsDogList
                 .Where(l => l.RecordId == currentRecordId)
                 .ToList();
-            _context.DogCriteriaResultsDogLists.RemoveRange(oldLinks);
+            _context.DogCriteriaResultsDogList.RemoveRange(oldLinks);
 
             // Сохраняем ВЫБРАННЫЕ РАДИО-ВАРИАНТЫ
             foreach (var критерий in Criteria)
@@ -629,7 +642,7 @@ namespace Клуб_6.Окна
                         OptionId = selectedRadioOption.OptionId, // ID из Options
                         UserInput = null
                     };
-                    _context.DogCriteriaResultsDogLists.Add(link);
+                    _context.DogCriteriaResultsDogList.Add(link);
                 }
 
                 // Сохраняем ТЕКСТОВЫЕ ОТВЕТЫ (не привязаны к OptionId)
@@ -644,7 +657,7 @@ namespace Клуб_6.Окна
                             OptionId = textOption.OptionId, // ← OptionId ТЕКСТОВОГО ПОЛЯ из Options
                             UserInput = textOption.ResultText
                         };
-                        _context.DogCriteriaResultsDogLists.Add(textLink);
+                        _context.DogCriteriaResultsDogList.Add(textLink);
                     }
                 }
             }
@@ -656,14 +669,14 @@ namespace Клуб_6.Окна
 
             foreach (var disciplineVM in Disciplines)
             {
-                var existingResult = _context.DogDisciplines
+                var existingResult = _context.DogDiscipline
                     .FirstOrDefault(dd => dd.RecordId == currentRecordId
                         && dd.DisciplineId == disciplineVM.DisciplineId);
 
                 if (existingResult != null)
                 {
                     existingResult.Score = disciplineVM.WorkingScore; // Используем Score вместо WorkingScore
-                    _context.DogDisciplines.Update(existingResult);
+                    _context.DogDiscipline.Update(existingResult);
                 }
                 else
                 {
@@ -673,7 +686,7 @@ namespace Клуб_6.Окна
                         DisciplineId = disciplineVM.DisciplineId,
                         Score = disciplineVM.WorkingScore // Используем Score вместо WorkingScore
                     };
-                    _context.DogDisciplines.Add(dogDiscipline);
+                    _context.DogDiscipline.Add(dogDiscipline);
                 }
             }
         }
@@ -685,7 +698,7 @@ namespace Клуб_6.Окна
             currentRecord.TrialPassed = TrialPassed;
             currentRecord.TrialFailed = string.IsNullOrWhiteSpace(TrialFailed) ? null : TrialFailed;
 
-            _context.DogLists.Update(currentRecord);
+            _context.DogList.Update(currentRecord);
         }
 
         private void LoadEventStatuses()
@@ -694,7 +707,7 @@ namespace Клуб_6.Окна
             {
                 EventStatuses.Clear();
 
-                var statuses = _context.EventStatuses
+                var statuses = _context.EventStatus
                     .OrderBy(s => s.StatusId)
                     .ToList();
 

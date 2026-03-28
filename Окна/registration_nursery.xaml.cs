@@ -18,7 +18,7 @@ namespace Клуб_6.Окна
 {
     public partial class registration_nursery : Window
     {
-        private Клуб6Context _context;
+        private КлубContext _context;
         private Kennel _newNursery;
         private bool _isMouseClick = false;
         private string _phoneMask = "+7(000)000-00-00";
@@ -26,7 +26,7 @@ namespace Клуб_6.Окна
         public registration_nursery()
         {
             InitializeComponent();
-            _context = new Клуб6Context();
+            _context = new КлубContext();
             _newNursery = new Kennel();
             SetInitialWatermarks();
 
@@ -208,7 +208,7 @@ namespace Клуб_6.Окна
                 _newNursery.FoundationDate = null;
             }
 
-            _context.Kennels.Add(_newNursery);
+            _context.Kennel.Add(_newNursery);
             _context.SaveChanges();
 
             System.Windows.MessageBox.Show($"Питомник успешно зарегистрирован!\n",

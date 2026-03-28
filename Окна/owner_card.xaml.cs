@@ -18,13 +18,13 @@ namespace Клуб_6.Окна
     public partial class owner_card : Window
     {
         private Owner _currentOwner;
-        private Клуб6Context _context;
+        private КлубContext _context;
         private bool _isNewOwner;
 
-        public owner_card(Owner owner = null, Клуб6Context context = null)
+        public owner_card(Owner owner = null, КлубContext context = null)
         {
             InitializeComponent();
-            _context = context ?? new Клуб6Context();
+            _context = context ?? new КлубContext();
 
             if (owner == null)
             {
@@ -34,7 +34,7 @@ namespace Клуб_6.Окна
             }
             else
             {
-                _currentOwner = _context.Owners.Find(owner.OwnerId);
+                _currentOwner = _context.Owner.Find(owner.OwnerId);
                 _isNewOwner = false;
                 Title = "Редактирование карточки владельца";
 
@@ -101,11 +101,11 @@ namespace Клуб_6.Окна
 
                 if (_isNewOwner)
                 {
-                    _context.Owners.Add(_currentOwner);
+                    _context.Owner.Add(_currentOwner);
                 }
                 else
                 {
-                    _context.Owners.Update(_currentOwner);
+                    _context.Owner.Update(_currentOwner);
                 }
 
                 _context.SaveChanges();
@@ -146,7 +146,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var ownerRelations = _context.DogOwners
+                var ownerRelations = _context.DogOwner
                     .Where(o => o.OwnerId == _currentOwner.OwnerId)
                     .ToList();
 
@@ -154,7 +154,7 @@ namespace Клуб_6.Окна
 
                 foreach (var relation in ownerRelations)
                 {
-                    var dog = _context.Dogs.Find(relation.ChipNumber);
+                    var dog = _context.Dog.Find(relation.ChipNumber);
                     if (dog != null)
                     {
                         dogNames.Add(dog.DogName);
@@ -174,7 +174,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var ownerRelations = _context.DogOwners
+                var ownerRelations = _context.DogOwner
                     .Where(o => o.OwnerId == _currentOwner.OwnerId)
                     .ToList();
 
@@ -183,7 +183,7 @@ namespace Клуб_6.Окна
 
                 foreach (var relation in ownerRelations)
                 {
-                    var dog = _context.Dogs.Find(relation.ChipNumber);
+                    var dog = _context.Dog.Find(relation.ChipNumber);
                     if (dog != null)
                     {
                         dogList.Add(dog);

@@ -12,7 +12,7 @@ namespace Клуб_6.Окна
 {
     public partial class ArchiveResult : Window, INotifyPropertyChanged
     {
-        private Клуб6Context _context;
+        private КлубContext _context;
         private ArchiveEventViewModel _selectedEvent;
 
         public ObservableCollection<ArchiveEventViewModel> ArchiveEvents { get; set; }
@@ -36,7 +36,7 @@ namespace Клуб_6.Окна
         public ArchiveResult()
         {
             InitializeComponent();
-            _context = new Клуб6Context(); // Исправлено на Клуб6Context
+            _context = new КлубContext(); // Исправлено на Клуб6Context
             ArchiveEvents = new ObservableCollection<ArchiveEventViewModel>();
 
             LoadArchiveData();
@@ -50,7 +50,7 @@ namespace Клуб_6.Окна
                 ArchiveEvents.Clear();
 
                 // Загружаем завершенные мероприятия (статус "Completed" или аналогичный)
-                var completedEvents = _context.Events
+                var completedEvents = _context.Event
                     .Include(e => e.Status)
                     .Include(e => e.Composition)
                     .Where(e => e.Status.StatusName == "Завершено" ||
@@ -63,7 +63,7 @@ namespace Клуб_6.Окна
                 foreach (var eventItem in completedEvents)
                 {
                     // Считаем количество собак в мероприятии через DogList
-                    int dogsCount = _context.DogLists
+                    int dogsCount = _context.DogList
                         .Count(dl => dl.EventId == eventItem.EventId);
 
                     var archiveEvent = new ArchiveEventViewModel

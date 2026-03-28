@@ -18,13 +18,13 @@ namespace Клуб_6.Окна
 {
     public partial class owner_file : Window
     {
-        private Клуб6Context _context;
+        private КлубContext _context;
         public ObservableCollection<object> OwnerList { get; set; }
 
         public owner_file()
         {
             InitializeComponent();
-            _context = new Клуб6Context();
+            _context = new КлубContext();
             LoadOwners();
             DataContext = this;
         }
@@ -58,7 +58,7 @@ namespace Клуб_6.Окна
                         return;
                     }
 
-                    var dogRelations = _context.DogOwners
+                    var dogRelations = _context.DogOwner
                         .Where(r => r.OwnerId == selectedOwner.OwnerId)
                         .ToList();
 
@@ -77,8 +77,8 @@ namespace Клуб_6.Окна
                         }
                     }
 
-                    _context.DogOwners.RemoveRange(dogRelations);
-                    _context.Owners.Remove(selectedOwner);
+                    _context.DogOwner.RemoveRange(dogRelations);
+                    _context.Owner.Remove(selectedOwner);
                     _context.SaveChanges();
                     LoadOwners();
 
@@ -97,7 +97,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var owners = _context.Owners
+                var owners = _context.Owner
                     .OrderBy(o => o.LastName)
                     .ThenBy(o => o.FirstName)
                     .ToList();
@@ -110,9 +110,9 @@ namespace Клуб_6.Окна
                     Phone = owner.Phone,
                     Owner = owner,
                     DogsNames = string.Join(", ",
-                        _context.DogOwners
+                        _context.DogOwner
                             .Where(r => r.OwnerId == owner.OwnerId)
-                            .Join(_context.Dogs,
+                            .Join(_context.Dog,
                                 r => r.ChipNumber,
                                 d => d.ChipNumber,
                                 (r, d) => d.DogName)
@@ -128,7 +128,10 @@ namespace Клуб_6.Окна
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
+        private void BoxEvents_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            btnChange_Click(sender, e);
+        }
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
             if (BoxOwner.SelectedItem == null)

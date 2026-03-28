@@ -6,137 +6,165 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Клуб_6.Окна"
         mc:Ignorable="d"
-        Title="registration_nursery"  Height="450" Width="800"
+        Title="registration_nursery"  
         WindowState="Maximized"
         WindowStyle="None">
 
     <Border Background="#76AF2C">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="30">
-                <TextBlock Text="РЕГИСТРАЦИЯ ПИТОМНИКА" 
-                   FontSize="24" 
-                   FontWeight="Bold"
-                   Foreground="White"
-                   HorizontalAlignment="Center"
-                   Margin="0,0,0,20"/>
+                <!-- Заголовок -->
+                <Border CornerRadius="20" 
+                        BorderThickness="1" 
+                        Height="55" 
+                        Width="410"
+                        Background="#B0E75B"
+                        Margin="0,2,20,0"
+                        HorizontalAlignment="Center">
+                    <TextBlock Text="РЕГИСТРАЦИЯ ПИТОМНИКА" 
+                               FontSize="24" 
+                               FontWeight="Bold"
+                               Foreground="Black"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
 
-                <!-- Основная информация -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <!-- Блок Основная информация -->
+                <Border Background="#B0E75B" 
+                        CornerRadius="5" 
+                        Padding="15" 
+                        Margin="0,20,0,0"
+                        HorizontalAlignment="Stretch">
+                    <StackPanel>
+                        <TextBlock Text="ОСНОВНАЯ ИНФОРМАЦИЯ" 
+                                   FontSize="16" 
+                                   FontWeight="Bold" 
+                                   Foreground="Black" 
+                                   HorizontalAlignment="Center" 
+                                   Margin="0,0,0,15"/>
 
-                    <!-- Левая колонка -->
-                    <StackPanel Grid.Column="0">
-                        <!-- Название питомника * -->
-                        <TextBlock Text="Название питомника *:" FontWeight="Bold" Foreground="White" Margin="0,0,0,5"/>
-                        <TextBox x:Name="txtName" FontSize="14" Padding="5" Height="30"
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Левая колонка -->
+                            <StackPanel Grid.Column="0">
+                                <!-- Название питомника * -->
+                                <TextBlock Text="Название питомника *:" FontWeight="Bold" Foreground="Black" Margin="0,0,0,5"/>
+                                <TextBox x:Name="txtName" FontSize="14" Padding="5" Height="30"
+                                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                         Tag="Например: SUDOSTSTERN"
+                                         Background="White"/>
+
+                                <!-- Дата основания -->
+                                <TextBlock Text="Дата основания (дд.мм.гггг):" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                                <DatePicker x:Name="dpBirthDate" FontSize="14" Height="30" Background="White"/>
+
+                                <!-- Страна -->
+                                <TextBlock Text="Страна:" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                                <TextBox x:Name="txtCountry" FontSize="14" Padding="5" Height="30"
+                                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                         Tag="Например: Казахстан"
+                                         Background="White"/>
+                            </StackPanel>
+
+                            <!-- Правая колонка -->
+                            <StackPanel Grid.Column="2">
+                                <!-- Телефон -->
+                                <TextBlock Text="Телефон:" FontWeight="Bold" Foreground="Black" Margin="0,0,0,5"/>
+                                <xctk:MaskedTextBox x:Name="txtPhone"
+                                         Mask="+7(000)000-00-00"
+                                         FontSize="14"
+                                         Height="30"
+                                         Background="White"
+                                         Foreground="Black"
+                                         BorderBrush="#CCCCCC"
+                                         BorderThickness="1"
+                                         PromptChar="_"
+                                         PreviewMouseDown="txtPhone_PreviewMouseDown"
+                                         GotFocus="txtPhone_GotFocus"/>
+
+                                <!-- Email -->
+                                <TextBlock Text="Email:" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                                <TextBox x:Name="txtEmail" FontSize="14" Padding="5" Height="30"
+                                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                         Tag="Например: Kennel@example.com"
+                                         Background="White"/>
+
+                                <!-- Город -->
+                                <TextBlock Text="Город:" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                                <TextBox x:Name="txtCity" FontSize="14" Padding="5" Height="30"
+                                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                         Tag="Например: Алматы"
+                                         Background="White"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Адрес -->
+                        <TextBlock Text="Адрес:" FontWeight="Bold" Foreground="Black" Margin="0,15,0,5"/>
+                        <TextBox x:Name="txtAddress" FontSize="14" Padding="5" Height="30"
                                  GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                                 Tag="Например: SUDOSTSTERN"/>
-
-                        <!-- Дата основания -->
-                        <TextBlock Text="Дата основания (дд.мм.гггг):" FontWeight="Bold" Foreground="White" Margin="0,10,0,5"/>
-                        <DatePicker x:Name="dpBirthDate" FontSize="14" Height="30"/>
-
-                        <!-- Страна -->
-                        <TextBlock Text="Страна:" FontWeight="Bold" Foreground="White" Margin="0,10,0,5"/>
-                        <TextBox x:Name="txtCountry" FontSize="14" Padding="5" Height="30"
-                                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                                 Tag="Например: Казахстан"/>
+                                 Tag="Например: ул. Ленина, д. 10, кв. 5"
+                                 Background="White"/>
                     </StackPanel>
+                </Border>
 
-                    <!-- Правая колонка -->
-                    <StackPanel Grid.Column="2">
-                        <!-- Телефон -->
-                        <TextBlock Text="Телефон:" FontWeight="Bold" Foreground="White" Margin="0,0,0,5"/>
-                        <xctk:MaskedTextBox x:Name="txtPhone"
-                                 Mask="+7(000)000-00-00"
-                                 FontSize="14"
-                                 Height="30"
-                                 Background="White"
-                                 Foreground="Black"
-                                 BorderBrush="#CCCCCC"
-                                 BorderThickness="1"
-                                 PromptChar="_"
-                                 PreviewMouseDown="txtPhone_PreviewMouseDown"
-                                 GotFocus="txtPhone_GotFocus"/>
-
-
-                        <!-- Email -->
-                        <TextBlock Text="Email:" FontWeight="Bold" Foreground="White" Margin="0,10,0,5"/>
-                        <TextBox x:Name="txtEmail" FontSize="14" Padding="5" Height="30"
-                                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                                 Tag="Например: Kennel@example.com"/>
-
-                        <!-- Город -->
-                        <TextBlock Text="Город:" FontWeight="Bold" Foreground="White" Margin="0,10,0,5"/>
-                        <TextBox x:Name="txtCity" FontSize="14" Padding="5" Height="30"
-                                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                                 Tag="Например: Алматы"/>
-                    </StackPanel>
-                </Grid>
-
-                <!-- Адрес -->
-                <TextBlock Text="Адрес:" FontWeight="Bold" Foreground="White" Margin="0,20,0,5"/>
-                <TextBox x:Name="txtAddress" FontSize="14" Padding="5" Height="30"
-                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                         Tag="Например: ул. Ленина, д. 10, кв. 5"/>
 
                 <!-- Кнопки -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,40,0,0">
                     <Border CornerRadius="20" 
-                        BorderThickness="1" 
-                        Height="45" 
-                        Width="150"
-                        Background="#444444"
-                        Margin="0,0,20,0">
+                            BorderThickness="1" 
+                            Height="45" 
+                            Width="150"
+                            Background="#444444"
+                            Margin="0,0,20,0">
                         <Button x:Name="btnBack" 
-                            Content="НАЗАД" 
-                            Click="BackButton_Click"
-                            FontWeight="Bold"
-                            FontSize="20"
-                            Style="{StaticResource ButtonStyleTHREE}"/>
+                                Content="НАЗАД" 
+                                Click="BackButton_Click"
+                                FontWeight="Bold"
+                                FontSize="20"
+                                Style="{StaticResource ButtonStyleTHREE}"/>
                     </Border>
 
                     <Border CornerRadius="20" 
-                        BorderThickness="1" 
-                        Height="45" 
-                        Width="160"
-                        Background="#444444"
-                        Margin="0,0,20,0">
+                            BorderThickness="1" 
+                            Height="45" 
+                            Width="160"
+                            Background="#444444"
+                            Margin="0,0,20,0">
                         <Button x:Name="btnSave" 
-                            Content="СОХРАНИТЬ" 
-                            Click="SaveButton_Click"
-                            FontWeight="Bold"
-                            FontSize="20"
-                            Style="{StaticResource ButtonStyle}"/>
+                                Content="СОХРАНИТЬ" 
+                                Click="SaveButton_Click"
+                                FontWeight="Bold"
+                                FontSize="20"
+                                Style="{StaticResource ButtonStyle}"/>
                     </Border>
 
                     <Border CornerRadius="20" 
-                        BorderThickness="1" 
-                        Height="45" 
-                        Width="150"
-                        Background="#6E0A0F"
-                        Margin="0,0,0,0">
+                            BorderThickness="1" 
+                            Height="45" 
+                            Width="150"
+                            Background="#6E0A0F"
+                            Margin="0,0,0,0">
                         <Button x:Name="btnClose" 
-                            Content="ВЫХОД" 
-                            Click="CloseButton_Click"
-                            FontWeight="Bold"
-                            FontSize="20"
-                            Style="{StaticResource ButtonStyleTWO}"/>
+                                Content="ВЫХОД" 
+                                Click="CloseButton_Click"
+                                FontWeight="Bold"
+                                FontSize="20"
+                                Style="{StaticResource ButtonStyleTWO}"/>
                     </Border>
                 </StackPanel>
 
                 <!-- Примечание -->
                 <TextBlock Text="* - обязательные поля для заполнения" 
-                   FontSize="12" 
-                   Foreground="#FFD700" 
-                   FontWeight="Bold"
-                   Margin="0,20,0,0"
-                   HorizontalAlignment="Center"/>
-
+                           FontSize="12" 
+                           Foreground="#FFD700" 
+                           FontWeight="Bold"
+                           Margin="0,20,0,0"
+                           HorizontalAlignment="Center"/>
             </StackPanel>
         </ScrollViewer>
     </Border>

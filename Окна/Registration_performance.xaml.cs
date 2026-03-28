@@ -11,7 +11,7 @@ namespace Клуб_6.Окна
 {
     public partial class Registration_performance : Window
     {
-        private Клуб6Context _context;
+        private КлубContext _context;
         private EventComposition _composition;
         private bool _isEditMode;
 
@@ -21,7 +21,7 @@ namespace Клуб_6.Окна
         public Registration_performance(int? compositionId = null)
         {
             InitializeComponent();
-            _context = new Клуб6Context();
+            _context = new КлубContext();
 
             CriteriaList = new ObservableCollection<Criterion>();
             DisciplinesList = new ObservableCollection<Discipline>();
@@ -53,7 +53,7 @@ namespace Клуб_6.Окна
 
         private void LoadExistingComposition(int compositionId)
         {
-            _composition = _context.EventCompositions
+            _composition = _context.EventComposition
                 .FirstOrDefault(c => c.CompositionId == compositionId);
 
             if (_composition != null)
@@ -66,7 +66,7 @@ namespace Клуб_6.Окна
         private void LoadTemplateData(int compositionId)
         {
             DisciplinesList.Clear();
-            var disciplines = _context.Disciplines
+            var disciplines = _context.Discipline
                 .Where(d => d.CompositionID == compositionId)
                 .ToList();
 
@@ -76,7 +76,7 @@ namespace Клуб_6.Окна
             }
 
             CriteriaList.Clear();
-            var criteria = _context.Criteria
+            var criteria = _context.Criterion
                 .Where(c => c.CompositionID == compositionId)
                 .Include(c => c.Options)
                 .ToList();
@@ -113,7 +113,7 @@ namespace Клуб_6.Окна
                     return;
                 }
 
-                using (var saveContext = new Клуб6Context())
+                using (var saveContext = new КлубContext())
                 {
                     if (!_isEditMode)
                     {
@@ -163,14 +163,14 @@ namespace Клуб_6.Окна
             }
         }
 
-        private void CreateNewTemplate(Клуб6Context context)
+        private void CreateNewTemplate(КлубContext context)
         {
             // 1. Сохраняем EventComposition
             _composition = new EventComposition
             {
                 Title = txtEventName.Text.Trim()
             };
-            context.EventCompositions.Add(_composition);
+            context.EventComposition.Add(_composition);
             context.SaveChanges();
 
             int compositionId = _composition.CompositionId;
@@ -185,7 +185,7 @@ namespace Клуб_6.Окна
                     Coefficient = discipline.Coefficient,
                     CompositionID = compositionId
                 };
-                context.Disciplines.Add(newDiscipline);
+                context.Discipline.Add(newDiscipline);
             }
             context.SaveChanges();
 
@@ -198,7 +198,7 @@ namespace Клуб_6.Окна
                     IsImportant = criterion.IsImportant,
                     CompositionID = compositionId
                 };
-                context.Criteria.Add(newCriterion);
+                context.Criterion.Add(newCriterion);
                 context.SaveChanges();
 
                 int criterionId = newCriterion.CriterionID;
@@ -213,15 +213,15 @@ namespace Клуб_6.Окна
                         CompositionID = compositionId,
                         CriterionID = criterionId
                     };
-                    context.Options.Add(newOption);
+                    context.Option.Add(newOption);
                 }
                 context.SaveChanges();
             }
         }
 
-        private void UpdateExistingTemplate(Клуб6Context context)
+        private void UpdateExistingTemplate(КлубContext context)
         {
-            var composition = context.EventCompositions
+            var composition = context.EventComposition
                 .FirstOrDefault(c => c.CompositionId == _composition.CompositionId);
 
             if (composition == null) return;
@@ -232,20 +232,20 @@ namespace Клуб_6.Окна
             int compositionId = composition.CompositionId;
 
             // Удаляем старые записи
-            var oldDisciplines = context.Disciplines
+            var oldDisciplines = context.Discipline
                 .Where(d => d.CompositionID == compositionId)
                 .ToList();
-            context.Disciplines.RemoveRange(oldDisciplines);
+            context.Discipline.RemoveRange(oldDisciplines);
 
-            var oldCriteria = context.Criteria
+            var oldCriteria = context.Criterion
                 .Where(c => c.CompositionID == compositionId)
                 .ToList();
-            context.Criteria.RemoveRange(oldCriteria);
+            context.Criterion.RemoveRange(oldCriteria);
 
-            var oldOptions = context.Options
+            var oldOptions = context.Option
                 .Where(o => o.CompositionID == compositionId)
                 .ToList();
-            context.Options.RemoveRange(oldOptions);
+            context.Option.RemoveRange(oldOptions);
 
             context.SaveChanges();
 
@@ -259,7 +259,7 @@ namespace Клуб_6.Окна
                     Coefficient = discipline.Coefficient,
                     CompositionID = compositionId
                 };
-                context.Disciplines.Add(newDiscipline);
+                context.Discipline.Add(newDiscipline);
             }
             context.SaveChanges();
 
@@ -272,7 +272,7 @@ namespace Клуб_6.Окна
                     IsImportant = criterion.IsImportant,
                     CompositionID = compositionId
                 };
-                context.Criteria.Add(newCriterion);
+                context.Criterion.Add(newCriterion);
                 context.SaveChanges();
 
                 int criterionId = newCriterion.CriterionID;
@@ -287,7 +287,7 @@ namespace Клуб_6.Окна
                         CompositionID = compositionId,
                         CriterionID = criterionId
                     };
-                    context.Options.Add(newOption);
+                    context.Option.Add(newOption);
                 }
                 context.SaveChanges();
             }

@@ -19,7 +19,7 @@ namespace Клуб_6.Окна
 {
     public partial class dog_file : Window
     {
-        private Клуб6Context _context;
+        private КлубContext _context;
         public ObservableCollection<dynamic> DogList { get; set; }
 
         public List<string> СтатусыСобаки = new List<string> { "Жив", "Мертв" };
@@ -27,7 +27,7 @@ namespace Клуб_6.Окна
         public dog_file()
         {
             InitializeComponent();
-            _context = new Клуб6Context();
+            _context = new КлубContext();
             LoadDogs();
             DataContext = this;
         }
@@ -36,7 +36,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var dogs = _context.Dogs
+                var dogs = _context.Dog
                     .Include(d => d.Kennel)
                     .OrderBy(d => d.DogName)
                     .ToList();
@@ -45,14 +45,14 @@ namespace Клуб_6.Окна
 
                 foreach (var dog in dogs)
                 {
-                    var ownerRelation = _context.DogOwners
+                    var ownerRelation = _context.DogOwner
                         .FirstOrDefault(o => o.ChipNumber == dog.ChipNumber);
 
                     string владелецФИО = "не указан";
 
                     if (ownerRelation != null)
                     {
-                        var owner = _context.Owners.Find(ownerRelation.OwnerId);
+                        var owner = _context.Owner.Find(ownerRelation.OwnerId);
                         if (owner != null)
                         {
                             владелецФИО = $"{owner.LastName} {owner.FirstName}";
@@ -107,6 +107,10 @@ namespace Клуб_6.Окна
             Application.Current.Shutdown();
         }
 
+        private void BoxEvents_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            btnChange_Click(sender, e);
+        }
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
             if (BoxDog.SelectedItem == null)
@@ -150,7 +154,7 @@ namespace Клуб_6.Окна
                 {
                     dynamic selectedItem = BoxDog.SelectedItem;
                     var chip = (int)selectedItem.ChipNumber;
-                    var selectedDog = _context.Dogs.Find(chip);
+                    var selectedDog = _context.Dog.Find(chip);
 
                     if (selectedDog == null)
                     {
@@ -160,7 +164,7 @@ namespace Клуб_6.Окна
                     }
 
                     // 1. Удаляем DogList записи и связанные данные
-                    var dogListEntries = _context.DogLists
+                    var dogListEntries = _context.DogList
                         .Where(d => d.DogId == chip)
                         .ToList();
 
@@ -170,32 +174,32 @@ namespace Клуб_6.Окна
                         var recordId = dogListEntry.RecordId;
 
                         // 1.1. Удаляем связи DogCriteriaResults через разводную таблицу
-                        var criteriaLinks = _context.DogCriteriaResultsDogLists
+                        var criteriaLinks = _context.DogCriteriaResultsDogList
                             .Where(link => link.RecordId == recordId)
                             .ToList();
 
 
                         // Удаляем сами связи из разводной таблицы
-                        _context.DogCriteriaResultsDogLists.RemoveRange(criteriaLinks);
+                        _context.DogCriteriaResultsDogList.RemoveRange(criteriaLinks);
 
                         // 1.2. Удаляем DogDisciplines
-                        var dogDisciplines = _context.DogDisciplines
+                        var dogDisciplines = _context.DogDiscipline
                             .Where(dd => dd.RecordId == recordId)
                             .ToList();
-                        _context.DogDisciplines.RemoveRange(dogDisciplines);
+                        _context.DogDiscipline.RemoveRange(dogDisciplines);
 
                         // Удаляем DogList запись
-                        _context.DogLists.Remove(dogListEntry);
+                        _context.DogList.Remove(dogListEntry);
                     }
 
                     // 2. Удаляем DogOwners
-                    var ownerRelations = _context.DogOwners
+                    var ownerRelations = _context.DogOwner
                         .Where(r => r.ChipNumber == chip)
                         .ToList();
-                    _context.DogOwners.RemoveRange(ownerRelations);
+                    _context.DogOwner.RemoveRange(ownerRelations);
 
                     // 3. Удаляем саму собаку
-                    _context.Dogs.Remove(selectedDog);
+                    _context.Dog.Remove(selectedDog);
 
                     _context.SaveChanges();
 

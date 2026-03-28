@@ -11,14 +11,14 @@ namespace Клуб_6.Окна
 {
     public partial class Schedule : Window
     {
-        private Клуб6Context _context;
+        private КлубContext _context;
         public ObservableCollection<Event> EventList { get; set; }
         private Event selectedEvent;
 
         public Schedule()
         {
             InitializeComponent();
-            _context = new Клуб6Context();
+            _context = new КлубContext();
             LoadEvents();
             DataContext = this;
             UpdateButtonsState(false);
@@ -28,7 +28,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var events = _context.Events
+                var events = _context.Event
                     .Include(e => e.Status)
                     .Include(e => e.Composition)
                     .Where(e => e.Status.StatusName == "In Progress")
@@ -40,7 +40,7 @@ namespace Клуб_6.Окна
 
                 if (!events.Any())
                 {
-                    var всеСобытия = _context.Events
+                    var всеСобытия = _context.Event
                         .Include(e => e.Status)
                         .ToList();
                 }
@@ -49,12 +49,12 @@ namespace Клуб_6.Окна
                 if (selectedDog != null)
                 {
                     // Используем связанную таблицу Dog для получения Breed
-                    var dogInfo = _context.Dogs
+                    var dogInfo = _context.Dog
                         .FirstOrDefault(d => d.ChipNumber == selectedDog.DogId);
 
                     if (dogInfo != null)
                     {
-                        string info = $"{selectedDog.DogName} ({dogInfo.Breed}) - №{selectedDog.ParticipantNumber}";
+                        string info = $"{selectedDog.DogName} ({dogInfo.Breed})";
                         MessageBox.Show($"Выбран: {info}");
                     }
                 }
@@ -85,7 +85,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var полноеСобытие = _context.Events
+                var полноеСобытие = _context.Event
                     .Include(e => e.Status)
                     .Include(e => e.Composition)
                     .FirstOrDefault(e => e.EventId == событие.EventId);
@@ -99,7 +99,6 @@ namespace Клуб_6.Окна
                 txtJudge2.Text = полноеСобытие.Judge2 ?? "";
                 txtOrganization.Text = полноеСобытие.Organization ?? "";
                 txtCommitteeChairman.Text = полноеСобытие.CommitteeChairman ?? "";
-                txtHost.Text = полноеСобытие.Host ?? "";
                 txtTestOrganizer.Text = полноеСобытие.TestOrganizer ?? "";
 
                 txtStatus.Text = GetRussianStatusName(полноеСобытие.Status?.StatusName);
@@ -121,7 +120,7 @@ namespace Клуб_6.Окна
                 lstParticipants.Items.Clear();
 
                 // Загружаем собак для этого мероприятия
-                var participants = _context.DogLists
+                var participants = _context.DogList
                     .Include(dl => dl.Dog) // Важно: включаем связанную таблицу Dog
                     .Where(dl => dl.EventId == eventId)
                     .OrderBy(dl => dl.DogName)
@@ -175,7 +174,7 @@ namespace Клуб_6.Окна
                     return;
                 }
 
-                var событиеДляОбновления = _context.Events
+                var событиеДляОбновления = _context.Event
                     .Include(e => e.Composition)
                     .FirstOrDefault(e => e.EventId == selectedEvent.EventId);
 
@@ -195,7 +194,6 @@ namespace Клуб_6.Окна
                 событиеДляОбновления.Judge2 = txtJudge2.Text.Trim();
                 событиеДляОбновления.Organization = txtOrganization.Text.Trim();
                 событиеДляОбновления.CommitteeChairman = txtCommitteeChairman.Text.Trim();
-                событиеДляОбновления.Host = txtHost.Text.Trim();
                 событиеДляОбновления.TestOrganizer = txtTestOrganizer.Text.Trim();
 
                 _context.SaveChanges();
@@ -241,7 +239,7 @@ namespace Клуб_6.Окна
                     try
                     {
                         // 1. Получаем все DogList записи для этого мероприятия
-                        var dogLists = _context.DogLists
+                        var dogLists = _context.DogList
                             .Where(dl => dl.EventId == событие.EventId)
                             .ToList();
 
@@ -250,26 +248,26 @@ namespace Клуб_6.Окна
                             var recordId = dogList.RecordId;
 
                             // 1.1. Удаляем связи DogCriteriaResults через разводную таблицу
-                            var criteriaLinks = _context.DogCriteriaResultsDogLists
+                            var criteriaLinks = _context.DogCriteriaResultsDogList
                                 .Where(link => link.RecordId == recordId)
                                 .ToList();
 
 
                             // Удаляем сами связи из разводной таблицы
-                            _context.DogCriteriaResultsDogLists.RemoveRange(criteriaLinks);
+                            _context.DogCriteriaResultsDogList.RemoveRange(criteriaLinks);
 
                             // 1.2. Удаляем DogDisciplines
-                            var dogDisciplines = _context.DogDisciplines
+                            var dogDisciplines = _context.DogDiscipline
                                 .Where(dd => dd.RecordId == recordId)
                                 .ToList();
-                            _context.DogDisciplines.RemoveRange(dogDisciplines);
+                            _context.DogDiscipline.RemoveRange(dogDisciplines);
 
                             // 1.3. Удаляем DogList запись
-                            _context.DogLists.Remove(dogList);
+                            _context.DogList.Remove(dogList);
                         }
 
                         // 2. Удаляем само мероприятие
-                        _context.Events.Remove(событие);
+                        _context.Event.Remove(событие);
                         _context.SaveChanges();
 
                         // 3. Обновляем UI

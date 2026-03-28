@@ -17,115 +17,135 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Заголовок -->
-            <TextBlock Text="ВЫБОР ТИПА МЕРОПРИЯТИЯ" 
-           FontSize="28" FontWeight="Bold" Foreground="White"
-           HorizontalAlignment="Center" Margin="0,30,0,20"/>
+            <Border CornerRadius="20" 
+        BorderThickness="1" 
+        Height="55" 
+        Width="410"
+        Background="#B0E75B"
+        Margin="0,20,0,0"
+        HorizontalAlignment="Center">
+                <TextBlock Text="ВЫБОР ТИПА МЕРОПРИЯТИЯ" 
+               FontSize="24" 
+               FontWeight="Bold"
+               Foreground="Black"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+            </Border>
 
-            <!-- Список типов мероприятий -->
-            <Border Grid.Row="1" Margin="50,10,50,10" Background="White" CornerRadius="10">
-                <StackPanel>
-                    <ListView x:Name="BoxEvents" 
-                  FontSize="14"
-                  Height="400"
-                  BorderThickness="0" 
-                  Width="Auto"
-                  AlternationCount="2"
-                  Margin="10"
-                  SelectionMode="Single"
-                  Cursor="Hand"
-                  MouseDoubleClick="BoxEvents_MouseDoubleClick">
+            <!-- Белый блок с закруглёнными краями, отцентрированный -->
+            <Border Grid.Row="1" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"
+                    Width="600" 
+                    Background="White" 
+                    CornerRadius="10">
+                <ListView x:Name="BoxEvents" 
+                          FontSize="14"
+                          Height="600"
+                          BorderThickness="0" 
+                          AlternationCount="2"
+                          Margin="10"
+                          SelectionMode="Single"
+                          Cursor="Hand"
+                          MouseDoubleClick="BoxEvents_MouseDoubleClick">
 
-                        <ListView.Resources>
-                            <!-- Стиль для заголовков столбцов -->
-                            <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <Setter Property="Background" Value="#08541C"/>
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="FontWeight" Value="Bold"/>
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Height" Value="35"/>
-                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                            </Style>
-                            <Style TargetType="{x:Type ListViewItem}">
-                                <Style.Triggers>
-                                    <Trigger Property="ItemsControl.AlternationIndex" Value="0">
-                                        <Setter Property="Background" Value="#C7C7C7"/>
-                                    </Trigger>
-                                    <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                                        <Setter Property="Background" Value="#ACDDE7"/>
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="#08541C"/>
-                                        <Setter Property="Foreground" Value="White"/>
-                                        <Setter Property="FontWeight" Value="Bold"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ListView.Resources>
+                    <ListView.Resources>
+                        <!-- Стиль для заголовков столбцов -->
+                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="Background" Value="#08541C"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Height" Value="35"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Style.Triggers>
+                                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                                    <Setter Property="Background" Value="#C7C7C7"/>
+                                </Trigger>
+                                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                    <Setter Property="Background" Value="#ACDDE7"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#08541C"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.Resources>
 
-                        <ListView.View>
-                            <GridView>
-                                <!-- ТОЛЬКО НАЗВАНИЕ -->
-                                <GridViewColumn Header="Название типа мероприятия" 
-                                    Width="700" 
-                                    DisplayMemberBinding="{Binding Title}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </StackPanel>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Название типа мероприятия" 
+                                            Width="550" 
+                                            DisplayMemberBinding="{Binding Title}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </Border>
 
             <!-- Кнопки -->
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,30">
                 <Button x:Name="btnBack" 
-                Content="НАЗАД" 
-                Width="150" 
-                Height="45" 
-                FontSize="25"
-                Click="btnBack_Click"
-                FontWeight="Bold"
-                Style="{StaticResource ButtonStyleTWO}"
-                Margin="10"/>
+                        Content="НАЗАД" 
+                        Width="150" 
+                        Height="45" 
+                        FontSize="25"
+                        Click="btnBack_Click"
+                        FontWeight="Bold"
+                        Style="{StaticResource ButtonStyleTWO}"
+                        Margin="10"/>
 
                 <Button x:Name="btnSelect" 
-                Content="ВЫБРАТЬ" 
-                Width="150" 
-                Height="45" 
-                FontSize="25"
-                FontWeight="Bold"
-                Click="btnSelect_Click" 
-                Style="{StaticResource ButtonStyle}"
-                Margin="10"/>
+                        Content="ВЫБРАТЬ" 
+                        Width="150" 
+                        Height="45" 
+                        FontSize="25"
+                        FontWeight="Bold"
+                        Click="btnSelect_Click" 
+                        Style="{StaticResource ButtonStyle}"
+                        Margin="10"/>
 
                 <Button x:Name="btnDelete" 
-                Content="УДАЛИТЬ" 
-                Width="150" 
-                Height="45" 
-                FontSize="25"
-                FontWeight="Bold"
-                Click="btnDelete_Click"
-                Style="{StaticResource ButtonStyleTWO}"
-                Margin="10"/>
+                        Content="УДАЛИТЬ" 
+                        Width="150" 
+                        Height="45" 
+                        FontSize="25"
+                        FontWeight="Bold"
+                        Click="btnDelete_Click"
+                        Style="{StaticResource ButtonStyleTWO}"
+                        Margin="10"/>
 
                 <Button x:Name="btnNew" 
-                Content="НОВЫЙ ТИП" 
-                Width="200" 
-                Height="45" 
-                FontSize="25"
-                FontWeight="Bold"
-                Click="btnNew_Click" 
-                Style="{StaticResource ButtonStyleTHREE}"
-                Margin="10"/>
+                        Content="НОВЫЙ ТИП" 
+                        Width="200" 
+                        Height="45" 
+                        FontSize="25"
+                        FontWeight="Bold"
+                        Click="btnNew_Click" 
+                        Style="{StaticResource ButtonStyleTHREE}"
+                        Margin="10"/>
+                <Button x:Name="btnView" 
+                    Content="ПРОСМОТР" 
+                    Width="150" 
+                    Height="45" 
+                    FontSize="25"
+                    FontWeight="Bold"
+                    Click="btnView_Click" 
+                    Style="{StaticResource ButtonStyleTHREE}"
+                    Margin="10"/>
 
                 <Button x:Name="btnExit" 
-                Content="ВЫХОД" 
-                Width="150" 
-                Height="45" 
-                FontSize="25"
-                Click="btnExit_Click"
-                FontWeight="Bold"
-                Style="{StaticResource ButtonStyleTWO}"
-                Margin="10"/>
+                        Content="ВЫХОД" 
+                        Width="150" 
+                        Height="45" 
+                        FontSize="25"
+                        Click="btnExit_Click"
+                        FontWeight="Bold"
+                        Style="{StaticResource ButtonStyleTWO}"
+                        Margin="10"/>
             </StackPanel>
         </Grid>
     </Border>

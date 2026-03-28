@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="Изображения\КМ.png" />
+    <None Remove="Изображения\лапа.jpg" />
     <None Remove="Изображения\лого.png" />
     <None Remove="Изображения\РВ.png" />
     <None Remove="Изображения\РП.png" />
@@ -28,7 +29,12 @@
 
   <ItemGroup>
     <Resource Include="Изображения\КМ.png" />
-    <Resource Include="Изображения\лого.png" />
+    <Resource Include="Изображения\лапа.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Изображения\лого.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Изображения\РВ.png" />
     <Resource Include="Изображения\РП.png" />
     <Resource Include="Изображения\РС.png" />

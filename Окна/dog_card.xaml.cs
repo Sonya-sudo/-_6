@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Клуб_6.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Клуб_6.Окна
 {
     public partial class dog_card : Window
     {
         private Dog _currentDog;
-        private Клуб6Context _context;
+        private КлубContext _context;
         private bool _isNewDog;
 
         // Вспомогательный класс для отображения критериев
@@ -24,7 +25,6 @@ namespace Клуб_6.Окна
             public string EventDate { get; set; }
         }
 
-        // Коллекция для привязки данных
         public ObservableCollection<ImportantCriterionDisplay> ImportantCriteria { get; set; }
 
         public class OwnerDisplay
@@ -39,14 +39,13 @@ namespace Клуб_6.Окна
             public string DisplayText => $"{Kennel.KennelName}";
         }
 
-        public dog_card(Dog dog = null, Клуб6Context context = null)
+        public dog_card(Dog dog = null, КлубContext context = null)
         {
             InitializeComponent();
-            _context = context ?? new Клуб6Context();
+            _context = context ?? new КлубContext();
 
-            // Инициализируем коллекцию
             ImportantCriteria = new ObservableCollection<ImportantCriterionDisplay>();
-            this.DataContext = this; // Устанавливаем DataContext для привязки
+            this.DataContext = this; 
 
             if (dog == null)
             {
@@ -61,7 +60,7 @@ namespace Клуб_6.Окна
             }
             else
             {
-                _currentDog = _context.Dogs
+                _currentDog = _context.Dog
                     .Include(d => d.Kennel)
                     .FirstOrDefault(d => d.ChipNumber == dog.ChipNumber);
 
@@ -73,7 +72,6 @@ namespace Клуб_6.Окна
                 _isNewDog = false;
                 Title = "Редактирование карточки собаки";
 
-                // Загружаем важные критерии ТОЛЬКО для существующей собаки
                 LoadImportantCriteria();
             }
 
@@ -96,7 +94,7 @@ namespace Клуб_6.Окна
                 }
 
                 // 1. Находим все записи DogList для этой собаки и включаем Event с Composition
-                var dogListRecords = _context.DogLists
+                var dogListRecords = _context.DogList
                     .Where(dl => dl.DogId == _currentDog.ChipNumber)
                     .Include(dl => dl.Event)
                             .ThenInclude(e => e.Composition) // Добавляем загрузку Composition
@@ -116,7 +114,7 @@ namespace Клуб_6.Окна
 
                 foreach (var recordId in recordIds)
                 {
-                    var results = _context.DogCriteriaResultsDogLists
+                    var results = _context.DogCriteriaResultsDogList
                         .Where(r => r.RecordId == recordId)
                         .ToList();
                     allResults.AddRange(results);
@@ -130,7 +128,7 @@ namespace Клуб_6.Окна
 
                 // 4. Получаем все критерии (важные)
                 var criterionIds = allResults.Select(r => r.CriterionId).Distinct().ToList();
-                var importantCriteria = _context.Criteria
+                var importantCriteria = _context.Criterion
                     .Include(c => c.Options)
                     .Where(c => criterionIds.Contains(c.CriterionID) && c.IsImportant == true)
                     .ToList();
@@ -260,7 +258,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var owners = _context.Owners
+                var owners = _context.Owner
                     .OrderBy(o => o.LastName)
                     .ThenBy(o => o.FirstName)
                     .Select(o => new OwnerDisplay { Owner = o })
@@ -270,7 +268,7 @@ namespace Клуб_6.Окна
                 cmbOwner.DisplayMemberPath = "DisplayText";
                 cmbOwner.SelectedValuePath = "Owner";
 
-                var ownerRelation = _context.DogOwners
+                var ownerRelation = _context.DogOwner
                     .FirstOrDefault(o => o.ChipNumber == _currentDog.ChipNumber);
 
                 if (ownerRelation != null)
@@ -296,6 +294,7 @@ namespace Клуб_6.Окна
             txtWeight.Text = _currentDog.WeightKg?.ToString() ?? "";
             txtMother.Text = _currentDog.MotherName ?? "";
             txtFather.Text = _currentDog.FatherName ?? "";
+            txtPedigreeNumber.Text = _currentDog.Pedigree ?? "";
 
             if (_currentDog.ChipNumber > 0)
             {
@@ -332,7 +331,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var kennels = _context.Kennels
+                var kennels = _context.Kennel
                     .OrderBy(k => k.KennelName)
                     .Select(k => new KennelDisplay { Kennel = k })
                     .ToList();
@@ -418,7 +417,7 @@ namespace Клуб_6.Окна
                 // Проверка уникальности чипа
                 if (_isNewDog)
                 {
-                    var existingDog = _context.Dogs.Find(chipNumber);
+                    var existingDog = _context.Dog.Find(chipNumber);
                     if (existingDog != null)
                     {
                         MessageBox.Show("Собака с таким номером чипа уже существует!", "Ошибка",
@@ -429,7 +428,7 @@ namespace Клуб_6.Окна
                 }
                 else if (chipNumber != _currentDog.ChipNumber)
                 {
-                    var existingDog = _context.Dogs.Find(chipNumber);
+                    var existingDog = _context.Dog.Find(chipNumber);
                     if (existingDog != null && existingDog.ChipNumber != _currentDog.ChipNumber)
                     {
                         MessageBox.Show("Собака с таким номером чипа уже существует!", "Ошибка",
@@ -448,6 +447,7 @@ namespace Клуб_6.Окна
                 _currentDog.FatherName = txtFather.Text.Trim();
                 _currentDog.IsAlive = chkIsAlive.IsChecked ?? true;
                 _currentDog.BirthDate = DateOnly.FromDateTime(dpBirthDate.SelectedDate.Value);
+                _currentDog.Pedigree = txtPedigreeNumber.Text.Trim();
 
                 if (int.TryParse(txtHeight.Text, out int height))
                     _currentDog.HeightCm = height;
@@ -477,18 +477,18 @@ namespace Клуб_6.Окна
                 // Сохранение собаки
                 if (_isNewDog)
                 {
-                    _context.Dogs.Add(_currentDog);
+                    _context.Dog.Add(_currentDog);
                 }
                 else
                 {
-                    _context.Dogs.Update(_currentDog);
+                    _context.Dog.Update(_currentDog);
                 }
 
                 _context.SaveChanges();
 
                 // Обновление связи с владельцем
                 var selectedOwner = cmbOwner.SelectedItem as OwnerDisplay;
-                var existingRelation = _context.DogOwners
+                var existingRelation = _context.DogOwner
                     .FirstOrDefault(o => o.ChipNumber == _currentDog.ChipNumber);
 
                 if (selectedOwner != null)
@@ -500,19 +500,19 @@ namespace Клуб_6.Окна
                             ChipNumber = _currentDog.ChipNumber,
                             OwnerId = selectedOwner.Owner.OwnerId
                         };
-                        _context.DogOwners.Add(newRelation);
+                        _context.DogOwner.Add(newRelation);
                     }
                     else
                     {
                         existingRelation.OwnerId = selectedOwner.Owner.OwnerId;
-                        _context.DogOwners.Update(existingRelation);
+                        _context.DogOwner.Update(existingRelation);
                     }
                 }
                 else
                 {
                     if (existingRelation != null)
                     {
-                        _context.DogOwners.Remove(existingRelation);
+                        _context.DogOwner.Remove(existingRelation);
                     }
                 }
 
@@ -555,5 +555,6 @@ namespace Клуб_6.Окна
         {
             e.Handled = !char.IsDigit(e.Text, 0);
         }
+
     }
 }

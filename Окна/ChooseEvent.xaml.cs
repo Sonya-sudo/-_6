@@ -11,12 +11,12 @@ namespace Клуб_6.Окна
 {
     public partial class ChooseEvent : Window
     {
-        private Клуб6Context _context;
+        private КлубContext _context;
 
         public ChooseEvent()
         {
             InitializeComponent();
-            _context = new Клуб6Context();
+            _context = new КлубContext();
             LoadEventTypes();
         }
 
@@ -24,7 +24,7 @@ namespace Клуб_6.Окна
         {
             try
             {
-                var eventTypes = _context.EventCompositions
+                var eventTypes = _context.EventComposition
                     .OrderBy(et => et.Title)
                     .Select(et => new
                     {
@@ -94,7 +94,7 @@ namespace Клуб_6.Окна
             int compositionId = selectedItem.CompositionId;
             string compositionTitle = selectedItem.Title;
 
-            var isUsed = _context.Events.Any(ev => ev.CompositionId == compositionId);
+            var isUsed = _context.Event.Any(ev => ev.CompositionId == compositionId);
 
             if (isUsed)
             {
@@ -116,17 +116,17 @@ namespace Клуб_6.Окна
             {
                 try
                 {
-                    var composition = _context.EventCompositions
+                    var composition = _context.EventComposition
                         .FirstOrDefault(ec => ec.CompositionId == compositionId);
 
                     if (composition != null)
                     {
                         // Сначала удаляем связанные данные
-                        var disciplines = _context.Disciplines
+                        var disciplines = _context.Discipline
                             .Where(d => d.CompositionID == compositionId)
                             .ToList();
 
-                        var criteria = _context.Criteria
+                        var criteria = _context.Criterion
                             .Where(c => c.CompositionID == compositionId)
                             .Include(c => c.Options)
                             .ToList();
@@ -135,12 +135,12 @@ namespace Клуб_6.Окна
                             .SelectMany(c => c.Options)
                             .ToList();
 
-                        _context.Options.RemoveRange(options);
-                        _context.Criteria.RemoveRange(criteria);
-                        _context.Disciplines.RemoveRange(disciplines);
+                        _context.Option.RemoveRange(options);
+                        _context.Criterion.RemoveRange(criteria);
+                        _context.Discipline.RemoveRange(disciplines);
 
                         // Теперь удаляем сам шаблон
-                        _context.EventCompositions.Remove(composition);
+                        _context.EventComposition.Remove(composition);
                         _context.SaveChanges();
 
                         MessageBox.Show($"Тип мероприятия '{compositionTitle}' успешно удален!", "Успех");
@@ -152,6 +152,22 @@ namespace Клуб_6.Окна
                     MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Ошибка");
                 }
             }
+        }
+
+        private void btnView_Click(object sender, RoutedEventArgs e)
+        {
+            if (BoxEvents.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите тип мероприятия для просмотра!", "Внимание");
+                return;
+            }
+
+            dynamic selectedItem = BoxEvents.SelectedItem;
+            int compositionId = selectedItem.CompositionId;
+            string compositionTitle = selectedItem.Title;
+
+            var viewWindow = new ViewEventTemplate(compositionId, compositionTitle);
+            viewWindow.ShowDialog();
         }
     }
 }

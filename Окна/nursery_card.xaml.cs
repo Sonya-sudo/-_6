@@ -18,13 +18,13 @@ namespace Клуб_6.Окна
     public partial class nursery_card : Window
     {
         private Kennel _currentNursery;
-        private Клуб6Context _context;
+        private КлубContext _context;
         private bool _isNewNursery;
 
-        public nursery_card(Kennel nursery = null, Клуб6Context context = null)
+        public nursery_card(Kennel nursery = null, КлубContext context = null)
         {
             InitializeComponent();
-            _context = context ?? new Клуб6Context();
+            _context = context ?? new КлубContext();
 
             if (nursery == null)
             {
@@ -34,7 +34,7 @@ namespace Клуб_6.Окна
             }
             else
             {
-                _currentNursery = _context.Kennels.Find(nursery.KennelId);
+                _currentNursery = _context.Kennel.Find(nursery.KennelId);
                 _isNewNursery = false;
                 Title = "Редактирование карточки питомника";
             }
@@ -87,11 +87,11 @@ namespace Клуб_6.Окна
 
                 if (_isNewNursery)
                 {
-                    _context.Kennels.Add(_currentNursery);
+                    _context.Kennel.Add(_currentNursery);
                 }
                 else
                 {
-                    _context.Kennels.Update(_currentNursery);
+                    _context.Kennel.Update(_currentNursery);
                 }
 
                 _context.SaveChanges();
